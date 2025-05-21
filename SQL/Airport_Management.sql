@@ -115,3 +115,83 @@ INSERT INTO Crew VALUES
 (816, "Tom Wilson", "Pilot", 6, 106),
 (817, 'Elena Vasquez', 'Cabin Crew', 6, 106),
 (818, 'Andrew Clark', 'Ground Staff', 6, 106);
+
+-- 1. SELECT f.flight_id, f.airline_id, f.flight_status FROM Flight AS f WHERE f.flight_status = "Delayed" OR f.flight_status = "Cancelled";
+
+-- SELECT f.flight_status, COUNT(b.booking_id) AS Total_booking, f.flight_id FROM Flight as f JOIN  Booking AS b ON b.flight_id = f.flight_id GROUP BY f.flight_id;
+
+-- 2. List all passengers who have booked a flight but have a service type (Student, Senior Citizen, etc.).
+
+-- SELECT p.pass_name, p.pass_services FROM Passenger AS p where p.pass_services IS NOT NULL;
+
+-- 3. Get the names of all airlines that operate flights departing from 'Indira Gandhi International Airport'.
+
+-- SELECT f.flight_id, a.airline_name FROM Flight AS f JOIN Airlines AS a ON f.airline_id = a.airline_id WHERE f.source_id = 1 OR f.destination_id = 1;
+
+-- 4. Find the total number of passengers for each nationality.
+
+-- SELECT f.pass_nationality, COUNT(*) from Passenger AS f GROUP BY f.pass_nationality;
+
+-- 5. Retrieve the total number of crew members working on each flight.
+
+-- SELECT c.flight_id, COUNT(c.flight_id) AS Total_workers FROM Flight AS f JOIN Crew AS c ON c.flight_id = f.flight_id GROUP BY c.flight_id;
+
+-- 6. Retrieve details of flights along with their source and destination airport names.
+
+-- SELECT f.flight_id, a1.airport_name AS Source_airport, a2.airport_name AS Destination_airport FROM Flight f Join Airport a1 ON f.source_id = a1.airport_id JOIN Airport a2 ON f.destination_id = a2.airport_id;
+
+-- 7. Find the airport with the maximum number of flights departing.
+
+-- SELECT a.airport_id, a.airport_name, a.airpot_code, COUNT(f.source_id) AS Total_flights FROM Airport AS a JOIN Flight AS f ON f.source_id = a.airport_id GROUP BY f.flight_id ORDER BY Total_flights;
+
+-- 8. List the top 3 flights with the highest number of confirmed bookings.
+
+-- SELECT flight_id, count(*) AS confirmed_bookings FROM Booking WHERE booking_status = "confirmed" GROUP BY flight_id ORDER BY confirmed_bookings;
+
+-- 9. Retrieve the crew members working on flights operated by 'British Airways'.
+
+-- SELECT c.crew_id, c.crew_name, c.crew_designation, f.flight_id FROM Crew AS c JOIN Flight as f ON f.flight_id = c.flight_id JOIN Airlines as a ON a.airline_id = f.airline_id WHERE a.airline_name = "British Airways";
+
+-- 10. Find the total count of bookings per booking type, ordered by the highest count.
+
+-- SELECT booking_status, COUNT(*) AS booking_status FROM Booking GROUP BY booking_status;
+
+-- 11. Retrieve flight details, including airline name, source airport, and destination airport, using JOIN operations.
+
+-- SELECT f.flight_id, a.airline_name, a.airline_code, f.flight_status, f.flight_departure_time, a1.airport_name AS Source, a2.airport_name AS Destination FROM Flight AS f JOIN Airport AS a1 ON f.source_id = a1.airport_id JOIN Airport AS a2 ON f.destination_id = a2.airport_id JOIN Airlines AS a ON a.airline_id = f.airline_id;
+
+-- 12. Find passengers who have booked flights but don’t have a registered service type.
+
+-- SELECT pass_name, pass_identity_number FROM Passenger WHERE pass_services IS NULL;
+
+-- 13. Get the name and contact details of all passengers who booked an First class seat.
+
+-- SELECT pass_name, pass_contact FROM Passenger JOIN Booking ON Passenger.PNR = Booking.pass_id WHERE Booking.booking_type = "First Class";
+
+-- 14. Find all bookings that were made within the last 24 hours.
+
+-- SELECT b.booking_id, b.pass_id FROM Booking AS b JOIN Flight AS f ON b.flight_id = f.flight_id WHERE b.booking_time >= NOW() - INTERVAL 1 DAY
+
+-- 15. Retrieve flights along with the assigned crew members, including pilots, cabin crew, and ground staff.
+
+-- SELECT c.crew_id, c.crew_name, c.crew_designation, f.flight_id FROM Crew AS c JOIN Flight AS f ON c.flight_id = f.flight_id;
+
+-- 16. List all airports along with the total number of flights departing from each.
+
+-- SELECT a.airport_name, COUNT(f.source_id) FROM Airport AS a JOIN Flight AS f ON a.airport_id = f.source_id GROUP BY a.airport_name;
+
+-- 17.For each booking type, get the latest booking time.
+
+-- SELECT booking_type, MAX(booking_time) FROM Booking GROUP BY booking_type;
+
+-- 18. Show the name of the pilot on each flight
+
+-- SELECT flight_id, crew_name FROM Crew WHERE crew_designation = "Pilot";
+
+-- 19. Find the contact numbers of passengers who booked a “Pending” status flight and are not from India.
+
+-- SELECT p.pass_contact, b.booking_status, p.pass_nationality FROM Passenger AS p JOIN Booking AS b ON b.pass_id = p.PNR WHERE b.booking_status = "Pending" AND p.pass_nationality<>"Indian";
+
+-- 20. List each airport along with how many flights depart from and arrive at it.
+
+-- SELECT a.airport_name, (SELECT COUNT(*) FROM Flight f1 WHERE f1.source_id = a.airport_id) AS source_count, (SELECT COUNT(*) FROM Flight f2 WHERE f2.destination_id = a.airport_id) AS destination_count FROM Airport a;
