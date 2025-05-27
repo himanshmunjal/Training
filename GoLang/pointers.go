@@ -60,7 +60,7 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	// "fmt"
 )
 
 type customer struct {
@@ -100,36 +100,36 @@ func updateBalance(cust *customer, t transaction) (customer, error) {
 	return *cust, nil
 }
 
-func main() {
-	c := customer{1, 450}
-	trans1 := transaction{1, 3400, transactionDeposit}
-	trans2 := transaction{1, 3900, transactionWithdrawal}
-	trans3 := transaction{1, 3200, "Mai kyun btaun ?"}
-	trans4 := transaction{1, 3700, transactionWithdrawal}
+// func main() {
+// 	c := customer{1, 450}
+// 	trans1 := transaction{1, 3400, transactionDeposit}
+// 	trans2 := transaction{1, 3900, transactionWithdrawal}
+// 	trans3 := transaction{1, 3200, "Mai kyun btaun ?"}
+// 	trans4 := transaction{1, 3700, transactionWithdrawal}
 
-	fmt.Println(c.balance)
-	c, err := updateBalance(&c, trans1)
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(c.id, " ", c.balance)
-	}
-	c, err2 := updateBalance(&c, trans2)
-	if err2 != nil {
-		fmt.Println(err2)
-	} else {
-		fmt.Println(c.id, " ", c.balance)
-	}
-	c, err3 := updateBalance(&c, trans3)
-	if err3 != nil {
-		fmt.Println(err3)
-	} else {
-		fmt.Println(c.id, " ", c.balance)
-	}
-	c, err4 := updateBalance(&c, trans4)
-	if err4 != nil {
-		fmt.Println(err4)
-	} else {
-		fmt.Println(c.id, " ", c.balance)
-	}
-}
+// 	fmt.Println(c.balance)
+// 	c, err := updateBalance(&c, trans1)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	} else {
+// 		fmt.Println(c.id, " ", c.balance)
+// 	}
+// 	c, err2 := updateBalance(&c, trans2)
+// 	if err2 != nil {
+// 		fmt.Println(err2)
+// 	} else {
+// 		fmt.Println(c.id, " ", c.balance)
+// 	}
+// 	c, err3 := updateBalance(&c, trans3)
+// 	if err3 != nil {
+// 		fmt.Println(err3)
+// 	} else {
+// 		fmt.Println(c.id, " ", c.balance)
+// 	}
+// 	c, err4 := updateBalance(&c, trans4)
+// 	if err4 != nil {
+// 		fmt.Println(err4)
+// 	} else {
+// 		fmt.Println(c.id, " ", c.balance)
+// 	}
+// }

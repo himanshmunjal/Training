@@ -1,9 +1,8 @@
-// package main
+package main
 
-// import (
-// 	"fmt"
-// 	"strings"
-// )
+import (
+	"fmt"
+)
 
 // type sms struct {
 // 	id      string
@@ -142,3 +141,17 @@
 //         fmt.Println("Basic Plan Messages:", invalidMsgs)
 //     }
 // }
+
+func getMessageWithRetries(primary, secondary, tertiary string) {
+	sum := 0
+	messages := []string{primary, secondary, tertiary}
+	for j, _ := range messages {
+		sum = sum + len(messages[j])
+		fmt.Println(messages[j], " ", sum)
+	}
+
+}
+
+func main() {
+	getMessageWithRetries("Hello", "World", "!")
+}
