@@ -6,4 +6,3 @@ CREATE TABLE lists(
     priority INT,
     complete BOOLEAN
 );
-select * from lists;

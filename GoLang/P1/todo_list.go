@@ -62,7 +62,7 @@ func markComplete() {
 		log.Println("Error marking task complete:", err)
 		return
 	}
-	fmt.Println("Task Marked as Complete!")
+	fmt.Println("Task Marked as Complete Already!")
 }
 
 // Delete Task
