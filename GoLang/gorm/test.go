@@ -2,13 +2,13 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/himanshmunjal/Training/controllers"
 )
 
 type Info struct {
-	Id     int    `gorm:"primaryKey" json:"id"`
+	Id     int    `json:"id"`
 	Name   string `json:"name"`
 	Age    int    `json:"age"`
 	E_mail string `json:"email"`
@@ -17,80 +17,109 @@ type Info struct {
 var person []Info
 
 func main() {
+	person = []Info{
+		{Id: 1, Name: "Alice", Age: 25, E_mail: "alice@example.com"},
+		{Id: 2, Name: "Bob", Age: 30, E_mail: "bob@example.com"},
+		{Id: 3, Name: "Charlie", Age: 22, E_mail: "charlie@example.com"},
+		{Id: 4, Name: "David", Age: 28, E_mail: "david@example.com"},
+		{Id: 5, Name: "Eve", Age: 35, E_mail: "eve@example.com"},
+	}
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
-	notesControllers := &controllers.NotesControllers{ /* Pass required fields or arguments here */ }
-	notesControllers.InitNotesControllerRoutes(router)
-	router.GET("/user", func(c *gin.Context) {
-		var users []Info
-		if err := db.Find(&users).Error; err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "No user found",
-			})
-			return
-		}
-		c.JSON(http.StatusOK, users)
+	router.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "Welcome to Info Website")
 	})
 
-	router.GET("/user/:id", func(c *gin.Context) {
-		var users []Info
-		id := c.Param("id")
-		if err := db.Find(&users, id).Error; err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "No user found",
-			})
-			return
-		}
-		c.JSON(http.StatusOK, users)
+	router.GET("/type", func(c *gin.Context) {
+		c.JSON(http.StatusOK, person)
 	})
 
-	router.POST("/add", func(ctx *gin.Context) {
-		var user Info
-		if err := ctx.ShouldBindJSON(&user); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"error": "Failed to bind user",
-			})
-			return
-		}
-		if result := db.Create(&user); result.Error != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"error": result.Error.Error(),
-			})
-			return
-		}
-		ctx.JSON(http.StatusCreated, user)
-	})
-
-	router.PUT("/update/:id", func(c *gin.Context) {
-		var user Info
-		id := c.Param("id")
-		if res := db.First(&user, id); res.Error != nil {
-			c.JSON(http.StatusNotFound, gin.H{
-				"error": "User not found",
-			})
-			return
-		}
-		if err := c.ShouldBindJSON(&user); err != nil {
+	router.GET("/type/:id", func(c *gin.Context) {
+		search := c.Param("id")
+		id, err := strconv.Atoi(search)
+		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Bad request sent",
+			})
+		}
+		for _, k := range person {
+			if k.Id == id {
+				c.JSON(http.StatusBadRequest, gin.H{
+					"id":     k.Id,
+					"name":   k.Name,
+					"age":    k.Age,
+					"e-mail": k.E_mail,
+				})
+			}
+		}
+	})
+
+	router.POST("/add", func(c *gin.Context) {
+		var new Info
+		if err := c.ShouldBindJSON(&new); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})
+		}
+		new.Id = len(person) + 1
+		person = append(person, new)
+		c.JSON(http.StatusOK, person)
+	})
+
+	router.DELETE("/remove/:id", func(c *gin.Context) {
+		new_id := c.Param("id")
+		id, err := strconv.Atoi(new_id)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
 				"error": err.Error(),
 			})
-			return
 		}
-		db.Save(&user)
-		c.JSON(http.StatusOK, user)
+		for i, j := range person {
+			if j.Id == id {
+				person = append(person[:i], person[i+1:]...)
+				c.JSON(http.StatusOK, gin.H{"message": "deletion done"})
+				return
+			}
+		}
 	})
 
-	router.DELETE("/delete/:id", func(ctx *gin.Context) {
-		var user Info
-		id := ctx.Param("id")
-		if res := db.First(&user, id); res.Error != nil {
-			ctx.JSON(http.StatusNotFound, gin.H{
-				"error": "User Not found",
-			})
-			return
+	router.PUT("/put/:id", func(c *gin.Context) {
+		var new Info
+
+		if err := c.ShouldBindJSON(&new); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
-		db.Delete(&user)
-		ctx.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+
+		new_id := c.Param("id")
+		id, err := strconv.Atoi(new_id)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Bad status request")
+		}
+		for i, k := range person {
+			if k.Id == id {
+				person[i] = new
+				c.JSON(http.StatusOK, person)
+			}
+		}
 	})
 
-	router.Run(":1212")
+	router.PATCH("/put/:id", func(c *gin.Context) {
+		var new Info
+
+		if err := c.ShouldBindJSON(&new); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+
+		new_id := c.Param("id")
+		id, err := strconv.Atoi(new_id)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Bad status request")
+		}
+		for i, k := range person {
+			if k.Id == id {
+				person[i] = new
+				c.JSON(http.StatusOK, person)
+			}
+		}
+	})
+
+	router.Run(":8085")
 }
