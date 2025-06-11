@@ -1,6 +1,7 @@
 import {React, useState} from "react";
 import { Link } from "react-router-dom";
 import backgroundImage from "../../assets/pp.avif";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -12,23 +13,35 @@ export default function Signup() {
     extraInfo: "", // Stores additional info based on user type
   });
 
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  
   const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // ✅ Password Validation
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    // ✅ Check if a valid login type is selected
-
-    console.log("Signup Data:", formData);
-  };
+      e.preventDefault();
+  
+      if (!formData.name || !formData.contact || !formData.email || !formData.password || !formData.confirmPassword) {
+        setError("All fields are required!");
+        return;
+      }
+  
+      if (!passwordRegex.test(formData.password)) {
+        setError("Password must be at least 8 characters, include a number, an uppercase letter, and a special character.");
+        return;
+      }
+  
+      if (formData.password !== formData.confirmPassword) {
+        setError("Passwords do not match!");
+        return;
+      }
+  
+      console.log("Signup Successful:", formData);
+      navigate("/admin"); // Redirect to main page after signup
+    };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-900">
@@ -41,7 +54,7 @@ export default function Signup() {
       {/* Glass Effect Signup Box */}
       <div className="relative backdrop-blur-lg bg-white/30 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-gray-800 text-center">Signup as Admin</h2>
-
+          {error && <p className="text-red-500 text-center font-semibold">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-700">Name</label>

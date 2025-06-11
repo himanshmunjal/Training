@@ -324,19 +324,3 @@ export default function BookingForm() {
     </>
   );
 }
-//   {/* <div
-//   className="relative w-64 h-80 rounded-xl overflow-hidden shadow-lg"
-//   style={{
-//     backgroundImage: "url('https://your-image-url.com/goa.jpg')", // Replace with actual URL or import
-//     backgroundSize: "cover",
-//     backgroundPosition: "center",
-//   }}
-// >
-//   {/* Overlay */}
-//   <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-
-//   {/* Text on Image */}
-//   <div className="absolute bottom-4 left-4 text-white">
-//     <h2 className="text-xl font-bold">Goa</h2>
-//     <p className="text-sm">3051 Properties</p>
-//   </div> */}

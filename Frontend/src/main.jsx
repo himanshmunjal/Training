@@ -2,8 +2,9 @@ import React, { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
-import Layout from "./Layout.jsx";
+import App_user from "./Layout/App_user.jsx";
+import App_admin from "./Layout/App_admin.jsx";
+import Layout from "./Layout/Layout.jsx";
 
 // Lazy-loaded components
 const Hero = React.lazy(() => import("./Hero/Hero.jsx"));
@@ -12,7 +13,6 @@ const FlightStatusAdmin = React.lazy(() => import("./Admin/Status/Status.jsx"));
 const AboutUser = React.lazy(() => import("./User/About/About_user.jsx"));
 const AboutAdmin = React.lazy(() => import("./Admin/About/About_admin.jsx"));
 const BookingUser = React.lazy(() => import("./User/Booking/booking_user.jsx"));
-const BookingAdmin = React.lazy(() => import("./Admin/Booking/booking_admin.jsx"));
 const BaggageUser = React.lazy(() => import("./User/Baggage/baggage_user.jsx"));
 const BaggageAdmin = React.lazy(() => import("./Admin/Baggage/baggage_admin.jsx"));
 
@@ -20,11 +20,16 @@ const BaggageAdmin = React.lazy(() => import("./Admin/Baggage/baggage_admin.jsx"
 const SignupUser = React.lazy(() => import("./User/Login/Signup_user.jsx"));
 const LoginUser = React.lazy(() => import("./User/Login/Login_user.jsx"));
 const HomeUser = React.lazy(() => import("./User/Home/Home.jsx"));
+const SupportUser = React.lazy(() => import("./User/Customer_support/support.jsx"));
 
 // Admin pages
 const SignupAdmin = React.lazy(() => import("./Admin/Login/Signup_admin.jsx"));
 const LoginAdmin = React.lazy(() => import("./Admin/Login/Login_admin.jsx"));
 const HomeAdmin = React.lazy(() => import("./Admin/Home/Home.jsx"));
+const Info = React.lazy(() => import("./Admin/Info/info.jsx"));
+const Advisory = React.lazy(() => import("./Admin/Advisory/advisory.jsx"));
+const Employee = React.lazy(() => import("./Admin/Employee/employee.jsx"));
+const Pass_Info = React.lazy(() => import("./Admin/Passanger/passanger_info.jsx"));
 
 const router = createBrowserRouter([
   {
@@ -40,24 +45,28 @@ const router = createBrowserRouter([
   },
   {
     path: "/user",
-    element: <App />,
+    element: <App_user />,
     children: [
       { index: true, element: <Suspense fallback={<div>Loading User Dashboard...</div>}><HomeUser /></Suspense> },
       { path: "flight-status", element: <Suspense fallback={<div>Loading Flight Status...</div>}><FlightStatusUser /></Suspense> },
       { path: "flight-bookings", element: <Suspense fallback={<div>Loading Bookings...</div>}><BookingUser /></Suspense> },
       { path: "baggage-tracker", element: <Suspense fallback={<div>Loading Baggage Info...</div>}><BaggageUser /></Suspense> },
       { path: "about", element: <Suspense fallback={<div>Loading About...</div>}><AboutUser /></Suspense> },
+      { path: "support", element: <Suspense fallback={<div>Loading Support...</div>}><SupportUser /></Suspense> },
     ],
   },
   {
     path: "/admin",
-    element: <App />,
+    element: <App_admin />,
     children: [
       { index: true, element: <Suspense fallback={<div>Loading Admin Dashboard...</div>}><HomeAdmin /></Suspense> },
       { path: "flight-status", element: <Suspense fallback={<div>Loading Flight Status...</div>}><FlightStatusAdmin /></Suspense> },
-      { path: "flight-bookings", element: <Suspense fallback={<div>Loading Bookings...</div>}><BookingAdmin /></Suspense> },
+      { path: "flight-info", element: <Suspense fallback={<div>Loading Flight Status...</div>}><Info /></Suspense> },
       { path: "baggage-tracker", element: <Suspense fallback={<div>Loading Baggage Info...</div>}><BaggageAdmin /></Suspense> },
       { path: "about", element: <Suspense fallback={<div>Loading About...</div>}><AboutAdmin /></Suspense> },
+      { path: "advisory", element: <Suspense fallback={<div>Loading Advisory...</div>}><Advisory /></Suspense> },
+      { path: "employee", element: <Suspense fallback={<div>Loading Advisory...</div>}><Employee /></Suspense> },
+      { path: "passanger-info", element: <Suspense fallback={<div>Loading Advisory...</div>}><Pass_Info /></Suspense> },
     ],
   },
 ]);

@@ -45,22 +45,22 @@ function Home() {
     "Pilots and co-pilots are advised not to eat the same food in case of contamination.",
   ];
 
-  const[darkMode, setDarkMode] = useState(false); // State for dark mode
+  const [darkMode, setDarkMode] = useState(false); // State for dark mode
 
   return (
     <>
-    <nav
-          className={`sticky z-50 top-0 w-full flex items-center justify-between p-4 shadow-md backdrop-blur-lg border ${
-            darkMode
-              ? "bg-gray-900/80 text-white border-gray-700"
-              : "bg-white/80 text-black border-gray-300"
-          }`}
-        >
-          {/* Left Side: Title */}
-          <h2 className="text-2xl font-bold ml-4 text-orange-500">
-            <Link to="/">🛫🛬 SkyPort</Link>
-          </h2>
-          <label className="relative flex items-center cursor-pointer">
+      <nav
+        className={`sticky z-50 top-0 w-full flex items-center justify-between p-4 shadow-md backdrop-blur-lg border ${
+          darkMode
+            ? "bg-gray-900/80 text-white border-gray-700"
+            : "bg-white/80 text-black border-gray-300"
+        }`}
+      >
+        {/* Left Side: Title */}
+        <h2 className="text-2xl font-bold ml-4 text-orange-500">
+          <Link to="/">🛫🛬 SkyPort</Link>
+        </h2>
+        <label className="relative flex items-center cursor-pointer">
           <span className="text-sm mr-3">🌞</span>
           <input
             type="checkbox"
@@ -81,27 +81,33 @@ function Home() {
       {/* Container for Centering the Cards */}
       <div className="flex justify-center items-center m-5 p-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
           {/* User Login Card */}
-          <div className="cursor-pointer w-64 h-80 flex flex-col items-center justify-center text-center rounded-lg overflow-hidden shadow-lg bg-white p-6 transition-transform hover:scale-105">
-            <img className="w-40 mb-4" src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="User Login" />
-            <Link to="/user/login-user">
+          <Link to="/user/login-user">
+            <div className="cursor-pointer w-64 h-80 flex flex-col items-center justify-center text-center rounded-lg overflow-hidden shadow-lg bg-white p-6 transition-transform hover:scale-105">
+              <img
+                className="w-40 mb-4"
+                src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
+                alt="User Login"
+              />
               <button className="bg-orange-500 text-white rounded px-4 py-2 font-bold flex items-center gap-2">
                 User Login ➡️
               </button>
-            </Link>
-          </div>
+            </div>
+          </Link>
 
           {/* Admin Login Card */}
-          <div className="cursor-pointer w-64 h-80 flex flex-col items-center justify-center text-center rounded-lg overflow-hidden shadow-lg bg-white p-6 transition-transform hover:scale-105">
-            <img className="w-40 mb-4" src="https://i.pinimg.com/736x/6a/44/f0/6a44f0e35b10e6ed063eeebf7ed844f9.jpg" alt="Admin Login" />
-            <Link to="/admin/login-admin">
+          <Link to="/admin/login-admin">
+            <div className="cursor-pointer w-64 h-80 flex flex-col items-center justify-center text-center rounded-lg overflow-hidden shadow-lg bg-white p-6 transition-transform hover:scale-105">
+              <img
+                className="w-40 mb-4"
+                src="https://i.pinimg.com/736x/6a/44/f0/6a44f0e35b10e6ed063eeebf7ed844f9.jpg"
+                alt="Admin Login"
+              />
               <button className="bg-orange-500 text-white rounded px-4 py-2 font-bold flex items-center gap-2">
                 Admin Login ➡️
               </button>
-            </Link>
-          </div>
-
+            </div>
+          </Link>
         </div>
       </div>
 
@@ -110,18 +116,29 @@ function Home() {
         <div className="flex flex-col rounded-lg overflow-hidden shadow-lg">
           <h2 className="text-xl pt-6 pl-6 pr-6">Spotlight</h2>
           <ul className="ml-6 list-disc mb-6">
-            <li className="p-2 underline underline-offset-4">Seamless Flight Operations, Effortless Travel.</li>
-            <li className="p-2 underline underline-offset-8">Your One-Stop Hub for Airport Efficiency!</li>
-            <li className="p-2 underline underline-offset-8">Tracking Every Flight, Connecting Every Journey.</li>
-            <li className="p-2 underline underline-offset-8">Smart Airports Start Here – Security, Scheduling & More!</li>
-            <li className="p-2 underline underline-offset-8">Turning Chaos into Coordination, One Flight at a Time.</li>
+            <li className="p-2 underline underline-offset-4">
+              Seamless Flight Operations, Effortless Travel.
+            </li>
+            <li className="p-2 underline underline-offset-8">
+              Your One-Stop Hub for Airport Efficiency!
+            </li>
+            <li className="p-2 underline underline-offset-8">
+              Tracking Every Flight, Connecting Every Journey.
+            </li>
+            <li className="p-2 underline underline-offset-8">
+              Smart Airports Start Here – Security, Scheduling & More!
+            </li>
+            <li className="p-2 underline underline-offset-8">
+              Turning Chaos into Coordination, One Flight at a Time.
+            </li>
           </ul>
         </div>
       </div>
 
       {/* Fun Fact About Travel */}
       <div className="mt-2 text-center text-gray-700 text-lg">
-        ✈️ <span className="font-bold">Fun Fact:</span> {travelFacts[Math.floor(Math.random() * travelFacts.length)]}.
+        ✈️ <span className="font-bold">Fun Fact:</span>{" "}
+        {travelFacts[Math.floor(Math.random() * travelFacts.length)]}.
       </div>
       <div className="mt-8 text-center bg-orange-500 h-12 flex items-center justify-center text-white font-bold">
         <p className="text-center text-gray-900 mt-4">

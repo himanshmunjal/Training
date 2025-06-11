@@ -20,19 +20,19 @@ function Navbar() {
       {/* Center: Navigation Options */}
       <ul className="flex space-x-6">
         <li className="hover:text-orange-500 transition-all duration-300 cursor-pointer">
-          <Link to="/">Home</Link>
+          <Link to="/user">Home</Link>
         </li>
         <li className="hover:text-orange-500 transition-all duration-300 cursor-pointer">
-          <Link to="/about">About Us</Link>
+          <Link to="/user/about">About Us</Link>
         </li>
         <li className="hover:text-orange-500 transition-all duration-300 cursor-pointer">
-          <Link to="/flight-status">Flight Status</Link>
+          <Link to="/user/flight-status">Flight Status</Link>
         </li>
         <li className="hover:text-orange-500 transition-all duration-300 cursor-pointer">
-          <Link to="/flight-bookings">Flight Bookings</Link>
+          <Link to="/user/flight-bookings">Flight Bookings</Link>
         </li>
         <li className="hover:text-orange-500 transition-all duration-300 cursor-pointer">
-          <Link to="/baggage-tracker">Baggage Info</Link>
+          <Link to="/user/baggage-tracker">Baggage Info</Link>
         </li>
       </ul>
         {/* Theme Toggle */}

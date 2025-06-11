@@ -25,10 +25,6 @@ export default function Status() {
         
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
           <div className="space-y-4">
-          <label className="block text-lg font-medium">Passenger ID</label>
-            <input type="text" name="airline" value={formData.airline} onChange={handleChange} required 
-              className="w-full p-2 border border-gray-300 rounded focus:ring focus:ring-orange-300" />
-            
             <label className="block text-lg font-medium">Airline Name</label>
             <input type="text" name="airline" value={formData.airline} onChange={handleChange} required 
               className="w-full p-2 border border-gray-300 rounded focus:ring focus:ring-orange-300" />

@@ -1,6 +1,8 @@
-import {React, useState} from "react";
+import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import backgroundImage from "../../assets/pp.avif";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -9,30 +11,64 @@ export default function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
-    logintype: "default",
     extraInfo: "", // Stores additional info based on user type
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const handleSubmit = (e) => {
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:2211/signup", {
+        pass_name: formData.name,
+        pass_contact: formData.contact,
+        pass_email: formData.email,
+        pass_password: formData.password,
+        aadhar_passport: formData.extraInfo,
+      });
+      if (response.status === 200) {
+        const { passenger_id } = response.data;
+        
+        alert(`Signup successful! Your Passenger ID is: ${passenger_id}\nKindly remember it for future reference.`);
 
-    // ✅ Password Validation
+        navigate("/user");
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      setError("Signup failed. Please try again.");
+      return;
+    }
+
+    if (
+      !formData.name ||
+      !formData.contact ||
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      setError("All fields are required!");
+      return;
+    }
+
+    if (!passwordRegex.test(formData.password)) {
+      setError(
+        "Password must be at least 8 characters, include a number, an uppercase letter, and a special character."
+      );
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
 
-    // ✅ Check if a valid login type is selected
-    if (formData.logintype === "default") {
-      alert("Please select a valid login type.");
-      return;
-    }
-
-    console.log("Signup Data:", formData);
+    console.log("Signup Successful:", formData);
+    navigate("/user"); // Redirect to main page after signup
   };
 
   return (
@@ -40,13 +76,20 @@ export default function Signup() {
       {/* Background Image with Blur Effect */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${backgroundImage})`, filter: "blur(8px)" }}
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          filter: "blur(8px)",
+        }}
       ></div>
 
       {/* Glass Effect Signup Box */}
       <div className="relative backdrop-blur-lg bg-white/30 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-gray-800 text-center">Signup as User</h2>
-
+        <h2 className="text-2xl font-semibold text-gray-800 text-center">
+          Signup as User
+        </h2>
+        {error && (
+          <p className="text-red-500 text-center font-semibold">{error}</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-700">Name</label>
@@ -113,84 +156,18 @@ export default function Signup() {
             />
           </div>
 
-          {/* Login Type Dropdown */}
           <div>
-            <label className="block text-gray-700">Login Type</label>
-            <select
-              name="logintype"
-              value={formData.logintype}
+            <label className="block text-gray-700">Aadhar/Passport ID</label>
+            <input
+              type="text"
+              name="extraInfo"
+              value={formData.extraInfo}
               onChange={handleChange}
+              placeholder="Enter your ID"
               required
               className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300"
-            >
-              <option value="default">--Select User Type--</option>
-              <option value="user">Indian National</option>
-              <option value="foreign">Foreign National</option>
-              <option value="admin">Admin</option>
-              <option value="staff">Airline Staff</option>
-            </select>
+            />
           </div>
-
-          {/* Conditionally Render Extra Input Based on User Type */}
-          {formData.logintype === "user" && (
-            <div>
-              <label className="block text-gray-700">Aadhar/PAN/Voter ID</label>
-              <input
-                type="text"
-                name="extraInfo"
-                value={formData.extraInfo}
-                onChange={handleChange}
-                placeholder="Enter your ID"
-                required
-                className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300"
-              />
-            </div>
-          )}
-
-          {formData.logintype === "foreign" && (
-            <div>
-              <label className="block text-gray-700">Passport Number</label>
-              <input
-                type="text"
-                name="extraInfo"
-                value={formData.extraInfo}
-                onChange={handleChange}
-                placeholder="Enter your Passport Number"
-                required
-                className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300"
-              />
-            </div>
-          )}
-
-          {formData.logintype === "admin" && (
-            <div>
-              <label className="block text-gray-700">Admin Key</label>
-              <input
-                type="text"
-                name="extraInfo"
-                value={formData.extraInfo}
-                onChange={handleChange}
-                placeholder="Enter your Admin Key"
-                required
-                className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300"
-              />
-            </div>
-          )}
-
-          {formData.logintype === "staff" && (
-            <div>
-              <label className="block text-gray-700">Employee ID</label>
-              <input
-                type="text"
-                name="extraInfo"
-                value={formData.extraInfo}
-                onChange={handleChange}
-                placeholder="Enter your Employee ID"
-                required
-                className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300"
-              />
-            </div>
-          )}
 
           <button
             type="submit"
@@ -201,7 +178,10 @@ export default function Signup() {
 
           <p className="text-center text-gray-700">
             Already have an account?{" "}
-            <Link to="/user/login-user" className="text-orange-500 hover:underline">
+            <Link
+              to="/user/login-user"
+              className="text-orange-500 hover:underline"
+            >
               Login here
             </Link>
           </p>

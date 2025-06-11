@@ -53,17 +53,6 @@ export default function Login() {
               className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300"
             />
           </div>
-          <label className="block text-gray-700">Password</label>
-          <select
-            value={loginType}
-            onChange={(e) => setLoginType(e.target.value)}
-            className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300">
-            <option value="default" className="font-extralight">--Default--</option>
-            <option value="user">Indian National</option>
-            <option value="foreign">Foreign National</option>
-            <option value="admin">Admin</option>
-            <option value="staff">Airline Staff</option>
-            </select>
 
           <div className="flex justify-between text-sm text-gray-600">
             <label>
