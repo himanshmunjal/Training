@@ -6,12 +6,12 @@ import axios from "axios";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
-    name: "",
-    contact: "",
-    email: "",
-    password: "",
+    pass_name: "",
+    pass_contact: "",
+    pass_email: "",
+    pass_password: "",
     confirmPassword: "",
-    extraInfo: "", // Stores additional info based on user type
+    aadhar_passport: "", // Stores additional info based on user type
   });
 
   const handleChange = (e) => {
@@ -24,12 +24,12 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:2211/signup", {
-        pass_name: formData.name,
-        pass_contact: formData.contact,
-        pass_email: formData.email,
-        pass_password: formData.password,
-        aadhar_passport: formData.extraInfo,
+      const response = await axios.post("http://localhost:2211/user/signup", {
+        pass_name: formData.pass_name,
+        pass_contact: formData.pass_contact,
+        pass_email: formData.pass_email,
+        pass_password: formData.pass_password,
+        aadhar_passport: formData.aadhar_passport,
       });
       if (response.status === 200) {
         const { passenger_id } = response.data;
@@ -45,24 +45,24 @@ export default function Signup() {
     }
 
     if (
-      !formData.name ||
-      !formData.contact ||
-      !formData.email ||
-      !formData.password ||
+      !formData.pass_name ||
+      !formData.pass_contact ||
+      !formData.pass_email ||
+      !formData.pass_password ||
       !formData.confirmPassword
     ) {
       setError("All fields are required!");
       return;
     }
 
-    if (!passwordRegex.test(formData.password)) {
+    if (!passwordRegex.test(formData.pass_password)) {
       setError(
         "Password must be at least 8 characters, include a number, an uppercase letter, and a special character."
       );
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.pass_password !== formData.confirmPassword) {
       setError("Passwords do not match!");
       return;
     }
@@ -92,10 +92,10 @@ export default function Signup() {
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700">Name</label>
+            <label className="block text-gray-700">Name<sup className="text-red-400"> *</sup></label>
             <input
               type="text"
-              name="name"
+              name="pass_name"
               value={formData.name}
               onChange={handleChange}
               placeholder="Enter your name"
@@ -105,10 +105,10 @@ export default function Signup() {
           </div>
 
           <div>
-            <label className="block text-gray-700">Contact</label>
+            <label className="block text-gray-700">Contact<sup className="text-red-400"> *</sup></label>
             <input
               type="text"
-              name="contact"
+              name="pass_contact"
               value={formData.contact}
               onChange={handleChange}
               placeholder="Enter your contact number"
@@ -118,10 +118,10 @@ export default function Signup() {
           </div>
 
           <div>
-            <label className="block text-gray-700">Email</label>
+            <label className="block text-gray-700">Email<sup className="text-red-400"> *</sup></label>
             <input
               type="email"
-              name="email"
+              name="pass_email"
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
@@ -134,7 +134,7 @@ export default function Signup() {
             <label className="block text-gray-700">Password</label>
             <input
               type="password"
-              name="password"
+              name="pass_password"
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
@@ -160,7 +160,7 @@ export default function Signup() {
             <label className="block text-gray-700">Aadhar/Passport ID</label>
             <input
               type="text"
-              name="extraInfo"
+              name="aadhar_passport"
               value={formData.extraInfo}
               onChange={handleChange}
               placeholder="Enter your ID"

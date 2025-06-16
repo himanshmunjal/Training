@@ -9,27 +9,28 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:2211/login", {
-        email,
-        password
+      const response = await axios.post("http://localhost:2211/user/login", {
+        pass_email:email,
+        pass_password:password
       });
-  
-      if (response.data && response.data.token) {
+      if (response.status === 200 && response.data.passenger_id) {
         setError("");
         alert(`Passenger ID: ${response.data.passenger_id}`); // Optional
         navigate("/user");
       } else {
+        console.log(response.data);
         setError("Login failed. Please check credentials.");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      setError("Invalid email or password");
+      if (error.response) {
+      console.log("Server Response:", error.response.data);
+      setError(error.response.data.error || "Invalid email or password");
+    } else {
+      setError("Network error. Server might be down.");
+    }
     }
   };
 
@@ -52,7 +53,7 @@ export default function Login() {
         {error && <p className="text-red-500 text-center font-semibold">{error}</p>} {/* ✅ Show error message */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700">Email</label>
+            <label className="block text-gray-700">Email<sup className="text-red-400"> *</sup></label>
             <input
               type="email"
               value={email}
@@ -64,7 +65,7 @@ export default function Login() {
           </div>
 
           <div>
-            <label className="block text-gray-700">Password</label>
+            <label className="block text-gray-700">Password<sup className="text-red-400"> *</sup></label>
             <input
               type="password"
               value={password}
@@ -91,9 +92,11 @@ export default function Login() {
 
           <p className="text-center text-gray-700">
             Don't have an account?{" "}
-            <Link to="/user/signup-user" className="text-orange-600 hover:underline">
+            <p className="text-orange-600 hover:underline">
+            <Link to={"/user/signup-user"} className="font-semibold">
               Register
             </Link>
+            </p>
           </p>
         </form>
       </div>

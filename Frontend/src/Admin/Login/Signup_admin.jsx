@@ -2,56 +2,73 @@ import {React, useState} from "react";
 import { Link } from "react-router-dom";
 import backgroundImage from "../../assets/pp.avif";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
-    name: "",
-    contact: "",
-    email: "",
-    password: "",
+    admin_name: "",
+    admin_contact: "",
+    admin_email: "",
+    admin_password: "",
     confirmPassword: "",
-    extraInfo: "", // Stores additional info based on user type
+    admin_key: "", // Stores additional info based on user type
   });
 
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
       e.preventDefault();
   
-      if (!formData.name || !formData.contact || !formData.email || !formData.password || !formData.confirmPassword) {
+      if (!formData.admin_name || !formData.admin_contact || !formData.admin_email || !formData.admin_password || !formData.confirmPassword) {
         setError("All fields are required!");
         return;
       }
   
-      if (!passwordRegex.test(formData.password)) {
+      if (!passwordRegex.test(formData.admin_password)) {
         setError("Password must be at least 8 characters, include a number, an uppercase letter, and a special character.");
         return;
       }
   
-      if (formData.password !== formData.confirmPassword) {
+      if (formData.admin_password !== formData.confirmPassword) {
         setError("Passwords do not match!");
         return;
       }
-  
-      console.log("Signup Successful:", formData);
-      navigate("/admin"); // Redirect to main page after signup
+
+      try{
+        const response = await axios.post("http://localhost:2211/admin/signup", {
+        admin_name: formData.admin_name,
+        admin_contact: parseInt(formData.admin_contact, 10),
+        admin_email: formData.admin_email,
+        admin_password: formData.admin_password,
+        admin_key: parseInt(formData.admin_key, 10),
+      });
+      if (response.status === 200) {
+        alert("Signup successful");
+        console.log(formData);
+      } else {
+        setError("Signup failed. Please try again.");
+      }
+      navigate("/admin");
+      }catch(error){
+        console.error("Error during signup:", error);
+        setError("An error occurred during signup. Please try again.");
+      }
     };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gray-900">
-      {/* Background Image with Blur Effect */}
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-900">\
+      
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${backgroundImage})`, filter: "blur(8px)" }}
       ></div>
 
-      {/* Glass Effect Signup Box */}
       <div className="relative backdrop-blur-lg bg-white/30 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-gray-800 text-center">Signup as Admin</h2>
           {error && <p className="text-red-500 text-center font-semibold">{error}</p>}
@@ -60,8 +77,8 @@ export default function Signup() {
             <label className="block text-gray-700">Name</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="admin_name"
+              value={formData.admin_name}
               onChange={handleChange}
               placeholder="Enter your name"
               required
@@ -72,9 +89,9 @@ export default function Signup() {
           <div>
             <label className="block text-gray-700">Contact</label>
             <input
-              type="text"
-              name="contact"
-              value={formData.contact}
+              type="number"
+              name="admin_contact"
+              value={formData.admin_contact}
               onChange={handleChange}
               placeholder="Enter your contact number"
               required
@@ -86,8 +103,8 @@ export default function Signup() {
             <label className="block text-gray-700">Email</label>
             <input
               type="email"
-              name="email"
-              value={formData.email}
+              name="admin_email"
+              value={formData.admin_email}
               onChange={handleChange}
               placeholder="Enter your email"
               required
@@ -99,8 +116,8 @@ export default function Signup() {
             <label className="block text-gray-700">Password</label>
             <input
               type="password"
-              name="password"
-              value={formData.password}
+              name="admin_password"
+              value={formData.admin_password}
               onChange={handleChange}
               placeholder="Enter your password"
               required
@@ -124,9 +141,9 @@ export default function Signup() {
           <div>
               <label className="block text-gray-700">Admin Key</label>
               <input
-                type="text"
-                name="extraInfo"
-                value={formData.extraInfo}
+                type="number"
+                name="admin_key"
+                value={formData.admin_key}
                 onChange={handleChange}
                 placeholder="Enter your Admin Key"
                 required

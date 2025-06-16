@@ -1,14 +1,32 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import backgroundImage from "../../assets/pp.avif";
+import axios from "axios"; // Import axios for HTTP requests
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginType, setLoginType] = useState("default");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try{
+      const response = await axios.post("http://localhost:2211/admin/login", {
+      email: email,
+      password: password,
+    });
+      if (response.status === 200) {
+        alert("Login successful");
+      } else {
+        console.log(response.data);
+        // setError("Login failed. Please check credentials.");
+      }
+      navigate("/admin");
+    }catch(error){
+      console.error("Error during login:", error);
+      alert("An error occurred during login. Please try again.");
+    }
     console.log("Email:", email, "Password:", password);
   };
 

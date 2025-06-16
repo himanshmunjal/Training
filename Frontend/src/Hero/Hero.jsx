@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import React from "react";
 import { Link } from "react-router-dom"; // ✅ Fix: Import Link for routing
 
@@ -43,7 +43,52 @@ function Home() {
     "Qatar Airlines’ Auckland to Doha route covers the longest distance (~9,032 miles).",
     "Japan has the most expensive airport taxis (~$165 in Hiroshima and Oita).",
     "Pilots and co-pilots are advised not to eat the same food in case of contamination.",
+    "The world’s largest airport is King Fahd International Airport in Saudi Arabia, covering 780 square kilometers.",
+    "The world’s busiest airport is Hartsfield-Jackson Atlanta International Airport.",
+    "The world’s longest flight route is from Singapore to Newark, covering 9,534 miles.",
+    "The world’s shortest commercial flight is from Westray to Papa Westray in Scotland, lasting 47 seconds.",
+    "The world’s most expensive airport is Changi Airport in Singapore, known for its luxury amenities.",
+    "The world’s most visited airport is Hartsfield-Jackson Atlanta International Airport.",
+    "The world’s largest passenger aircraft is the Airbus A380, which can carry over 800 passengers.",
+    "The world’s longest commercial flight is from Singapore to New York, lasting over 18 hours.",
+    "The world’s busiest international airport is Dubai International Airport.",
+    "The world’s most expensive airport taxi ride is in Tokyo, Japan, costing around $200.",
+    "Monaco is smaller than New York City’s Central Park. It covers only 2.02 km²!",
+    "Japan has over 1,500 earthquakes every year – most of them are so mild they go unnoticed.",
+    "Russia spans 11 time zones, making it the largest country by area.",
+    "Canada has more lakes than the rest of the world combined, with over 2 million lakes covering 9% of its land area.",
+    "You can drive across the entire country of Liechtenstein in about 30 minutes.",
+    "Australia is the only continent without an active volcano.",
+    "India has a floating post office on Dal Lake in Srinagar, Kashmir.",
+    "Switzerland has no official language; it recognizes four: German, French, Italian, and Romansh.",
+    "New Zealand has more sheep than people, with approximately 29 million sheep compared to 5 million people.",
+    "Bhutan measures its success by Gross National Happiness (GNH) instead of GDP.",
+    "Finland has a national sleep day, where people are encouraged to take a nap.",
+    "The world's most remote post office is in Antarctica! The Penguin Post Office lets visitors send letters from the icy continent.",
+    "The world's largest desert is Antarctica, covering an area of 14 million square kilometers.",
+    "Greenland is actually not green; it’s mostly covered in ice. Meanwhile, Iceland is greener than Greenland.",
+    "The shortest war in history was between Britain and Zanzibar on August 27, 1896, lasting only 38 minutes.",
   ];
+
+  const [advisories, setAdvisories] = useState([]);
+
+  useEffect(() => {
+    const fetchAdvisories = async () => {
+      try {
+        const response = await fetch("http://localhost:2211/hero/advisory"); 
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setAdvisories(data);
+      } catch (error) {
+        console.error("Error fetching advisories:", error);
+      }
+    };
+    fetchAdvisories();
+    const interval = setInterval(fetchAdvisories, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const [darkMode, setDarkMode] = useState(false); // State for dark mode
 
@@ -111,39 +156,93 @@ function Home() {
         </div>
       </div>
 
-      {/* Spotlight Effect */}
+      {/* Advisory */}
+      
       <div className="m-10">
-        <div className="flex flex-col rounded-lg overflow-hidden shadow-lg">
-          <h2 className="text-xl pt-6 pl-6 pr-6">Spotlight</h2>
-          <ul className="ml-6 list-disc mb-6">
-            <li className="p-2 underline underline-offset-4">
-              Seamless Flight Operations, Effortless Travel.
+        <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+          <div className="bg-orange-50 px-6 py-4 border-b border-orange-200 flex items-center">
+            <h2 className="text-xl font-semibold text-orange-700">
+              <span className="text-2xl">🛫 </span>Advisory
+            </h2>
+          </div>
+          <ul className="px-6 py-4 space-y-3">
+            <li className="text-gray-700 pl-2 relative hover:text-orange-600 transition-all duration-200">
+            {advisories.length > 0 ? (
+              advisories.map((advisory, index) => (
+                <span key={index} className="ml-6 underline underline-offset-4">
+                  <strong>{advisory.AdvisoryTitle}</strong>{advisory.AdvisoryText}
+                </span>
+              ))
+            ) : (
+              <span className="ml-6">No advisories available at the moment.</span>
+            )}
             </li>
-            <li className="p-2 underline underline-offset-8">
-              Your One-Stop Hub for Airport Efficiency!
+          </ul>
+        </div>
+      </div>
+
+
+      {/* SPOTLIGHT */}
+      <div className="m-10">
+        <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+          <div className="bg-orange-50 px-6 py-4 border-b border-orange-200 flex items-center">
+            <h2 className="text-xl font-semibold text-orange-700">
+              <span className="text-2xl">⚡️ </span>Spotlight
+            </h2>
+          </div>
+          <ul className="px-6 py-4 space-y-3">
+            <li className="text-gray-700 pl-2 relative hover:text-orange-600 transition-all duration-200">
+              <span className="absolute left-0 top-1 text-orange-400">✈️</span>
+              <span className="ml-6 underline underline-offset-4">
+                Seamless Flight Operations, Effortless Travel.
+              </span>
             </li>
-            <li className="p-2 underline underline-offset-8">
-              Tracking Every Flight, Connecting Every Journey.
+            <li className="text-gray-700 pl-2 relative hover:text-orange-600 transition-all duration-200">
+              <span className="absolute left-0 top-1 text-orange-400">✈️</span>
+              <span className="ml-6 underline underline-offset-4">
+                Your One-Stop Hub for Airport Efficiency!
+              </span>
             </li>
-            <li className="p-2 underline underline-offset-8">
-              Smart Airports Start Here – Security, Scheduling & More!
+            <li className="text-gray-700 pl-2 relative hover:text-orange-600 transition-all duration-200">
+              <span className="absolute left-0 top-1 text-orange-400">✈️</span>
+              <span className="ml-6 underline underline-offset-4">
+                Tracking Every Flight, Connecting Every Journey.
+              </span>
             </li>
-            <li className="p-2 underline underline-offset-8">
-              Turning Chaos into Coordination, One Flight at a Time.
+            <li className="text-gray-700 pl-2 relative hover:text-orange-600 transition-all duration-200">
+              <span className="absolute left-0 top-1 text-orange-400">✈️</span>
+              <span className="ml-6 underline underline-offset-4">
+                Smart Airports Start Here – Security, Scheduling & More!
+              </span>
+            </li>
+            <li className="text-gray-700 pl-2 relative hover:text-orange-600 transition-all duration-200">
+              <span className="absolute left-0 top-1 text-orange-400">✈️</span>
+              <span className="ml-6 underline underline-offset-4">
+                Turning Chaos into Coordination, One Flight at a Time.
+              </span>
             </li>
           </ul>
         </div>
       </div>
 
       {/* Fun Fact About Travel */}
-      <div className="mt-2 text-center text-gray-700 text-lg">
-        ✈️ <span className="font-bold">Fun Fact:</span>{" "}
-        {travelFacts[Math.floor(Math.random() * travelFacts.length)]}.
-      </div>
-      <div className="mt-8 text-center bg-orange-500 h-12 flex items-center justify-center text-white font-bold">
-        <p className="text-center text-gray-900 mt-4">
-          © 2025 SkyPort. All rights reserved.
-        </p>
+      <div>
+        <div className="mt-2 text-center text-gray-700 text-lg">
+          ✈️ <span className="font-bold">Fun Fact:</span>{" "}
+          {travelFacts[Math.floor(Math.random() * travelFacts.length)]}.
+        </div>
+        {/* Footer */}
+        <div className="mt-8 text-center bg-gray-100 p-4 rounded-lg shadow-md">
+          <p className="text-gray-600">Explore the world with SkyPort! 🌍</p>
+          <p className="text-gray-500 text-sm mt-2">
+            Discover more about our services and features.
+          </p>
+        </div>
+        <div className="mt-8 text-center bg-orange-500 h-12 flex items-center justify-center text-white font-bold">
+          <p className="text-center text-gray-900 mt-4">
+            © 2025 SkyPort. All rights reserved.
+          </p>
+        </div>
       </div>
     </>
   );
