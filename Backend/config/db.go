@@ -4,16 +4,29 @@ import (
 	"log"
 	"os"
 
-	"github.com/himanshmunjal/Training/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	model "github.com/himanshmunjal/Training/models/admin"
+	models "github.com/himanshmunjal/Training/models/user"
 )
 
 var DB *gorm.DB
 
 func SyncDB() {
-	DB.AutoMigrate(&models.Passenger{})
+	DB.AutoMigrate(
+		// ADMIN
+		&model.Admin{},
+		&model.BaggaeAdmin{},
+		&model.FlightStatus{},
+		&model.Advisory{},
+
+		// USER
+		&models.Passengers{},
+		&models.BaggageQuery{},
+		&models.Complaint{},
+	)
 }
 
 func InitDB() {
