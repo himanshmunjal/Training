@@ -4,15 +4,16 @@ import (
 	"os"
 
 	"github.com/gin-contrib/cors"
-	"github.com/himanshmunjal/Training/config"
-	"github.com/himanshmunjal/Training/routes"
-
 	"github.com/gin-gonic/gin"
+	"github.com/himanshmunjal/Training/config"
+	route "github.com/himanshmunjal/Training/routes/admin"
+	routes "github.com/himanshmunjal/Training/routes/user"
+	routeh "github.com/himanshmunjal/Training/routes"
 )
 
 func main() {
 	config.InitDB()
-
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
@@ -23,5 +24,7 @@ func main() {
 		AllowCredentials: true, // If using cookies or Authorization tokens
 	}))
 	routes.AuthRoutes(r)
-	r.Run(":" + os.Getenv("PORT")) // Default port is 8080, can be overridden by PORT env variable
+	route.AdminAuth(r)
+	routeh.HeroRoute(r)
+	r.Run(":" + os.Getenv("PORT"))
 }
