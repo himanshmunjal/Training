@@ -37,11 +37,11 @@ export default function Baggage() {
     }
   };
 
-  return (
+  return(
     <>
       {" "}
       {/* Fixed Header */}
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 p-6">
+      <div className=" flex flex-col items-center justify-center bg-gray-100 text-gray-800 p-6">
         <h1 className="text-3xl font-semibold text-orange-600 mb-6">
           Enter the details to fetch lost Baggage details
         </h1>
@@ -108,24 +108,27 @@ export default function Baggage() {
           </button>
         </form>
       </div>
+      {/* flex flex-col items-center justify-center */}
       {baggageDetails && (
-        <div className="flex flex-col items-center justify-center bg-gray-100 text-gray-800 pb-6">
-          <h2 className="text-2xl font-semibold mb-4">Baggage Details</h2>
-          <p className="text-xl">
-            <strong>Passenger Name:</strong> {baggageDetails.pass_name}
-          </p>
-          <p className="text-xl">
-            <strong>Passenger ID:</strong> {formData.pass_id}
-          </p>
-          <p className="text-xl">
-            <strong>Baggage ID:</strong> {baggageDetails.baggage_id}
-          </p>
-          <p className="text-xl">
-            <strong>Airline:</strong> {baggageDetails.airline}
-          </p>
-          <p className="text-xl">
-            <strong>Collection Center:</strong> {baggageDetails.collection}
-          </p>
+        <div className="flex items-center justify-center bg-gray-100 p-10">
+          <div className="flex flex-col items-center justify-center bg-white p-8 rounded shadow-md w-full max-w-xl text-gray-800">
+            <h2 className="text-2xl font-bold mb-2 text-green-700">Baggage Details</h2>
+            <p className="text-xl">
+              <strong>Passenger Name:</strong> {baggageDetails.pass_name}
+            </p>
+            <p className="text-xl">
+              <strong>Passenger ID:</strong> {formData.pass_id}
+            </p>
+            <p className="text-xl">
+              <strong>Baggage ID:</strong> {baggageDetails.baggage_id}
+            </p>
+            <p className="text-xl">
+              <strong>Airline:</strong> {baggageDetails.airline}
+            </p>
+            <p className="text-xl">
+              <strong>Collection Center:</strong> {baggageDetails.collection}
+            </p>
+          </div>
         </div>
       )}
     </>

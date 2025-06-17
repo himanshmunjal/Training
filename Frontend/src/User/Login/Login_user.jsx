@@ -16,9 +16,12 @@ export default function Login() {
         pass_email:email,
         pass_password:password
       });
-      if (response.status === 200 && response.data.passenger_id) {
+      if (response.status === 200 && response.data.passenger_id && response.data.token) {
         setError("");
         alert(`Passenger ID: ${response.data.passenger_id}`); // Optional
+        localStorage.setItem("role", "user");
+        localStorage.setItem("auth_token", response.data.token);
+        localStorage.setItem("passenger_id", response.data.passenger_id);
         navigate("/user");
       } else {
         console.log(response.data);
@@ -92,11 +95,9 @@ export default function Login() {
 
           <p className="text-center text-gray-700">
             Don't have an account?{" "}
-            <p className="text-orange-600 hover:underline">
-            <Link to={"/user/signup-user"} className="font-semibold">
+            <Link to={"/user/signup-user"} className="font-semibold text-orange-600 hover:underline">
               Register
             </Link>
-            </p>
           </p>
         </form>
       </div>

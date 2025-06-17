@@ -16,12 +16,12 @@ export default function Home(){
           <h1 className='text-orange-500 text-xs p-2'>Welcome to the Airport Management Portal. Check flights, book tickets, manage airport operations.</h1>
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 mb-6 mt-6'>
-          {Card('✈️', 'Flight Info', '/admin/flight-info')}
+          {Card('✈️', 'Flight Status', '/admin/flight-status')}
           {Card('📅', 'Schedule Management', '/schedules')}
           {Card('📊', 'Advisory', '/admin/advisory')}
           {Card('🛬', 'Arrival/Departure', '/admin/arrivals-departures')}
           {Card('👥', 'Employee Details', '/admin/employee')}
-          {Card('🔧', 'Passanger Info', '/admin/passanger-info')}
+          {Card('🔧', 'Passanger Info', '/admin/passenger-info')}
         </div>
       </>
     );

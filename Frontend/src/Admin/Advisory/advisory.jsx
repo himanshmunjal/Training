@@ -14,7 +14,6 @@ export default function AdvisoryForm() {
 
   const [advisories, setAdvisories] = useState([]);
 
-  // Fetch advisories on component mount
   useEffect(() => {
     fetchAdvisories();
   }, []);

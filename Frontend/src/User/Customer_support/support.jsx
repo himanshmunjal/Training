@@ -21,7 +21,7 @@ export default function Support() {
     // setError("");
 
     try {
-      const response = await axios.post("http://localhost:2211/complaint/submit", {
+      const response = await axios.post("http://localhost:2211/user/submit", {
         pass_id: parseInt(formData.Pass_id, 10),
         name: formData.name,
         airline: formData.airline,
@@ -93,7 +93,6 @@ export default function Support() {
                 value={formData.airline}
                 onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded-lg"
-                required
               />
             </div>
           </div>
@@ -127,7 +126,7 @@ export default function Support() {
 
       {/* ✅ Display Registered Complaint */}
       {submittedComplaint && (
-        <div className="mt-6 p-4 bg-white shadow-md rounded max-w-5xl mx-auto">
+        <div className="mt-6 p-4 mb-7 bg-white shadow-md rounded max-w-5xl mx-auto">
           <h3 className="text-lg font-semibold text-orange-600">
             Complaint Details
           </h3>
@@ -142,6 +141,9 @@ export default function Support() {
           </p>
           <p>
             <strong>Message:</strong> {submittedComplaint.message}
+          </p>
+          <p className="text-center">
+            <strong>Our team will reach out to you within 24 Hours.</strong>
           </p>
         </div>
       )}

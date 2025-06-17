@@ -5,34 +5,35 @@ import axios from "axios"; // Import axios for HTTP requests
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [admin_email, setEmail] = useState("");
+  const [admin_password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
       const response = await axios.post("http://localhost:2211/admin/login", {
-      email: email,
-      password: password,
+      admin_email: admin_email,
+      admin_password: admin_password,
     });
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.admin_key && response.data.token) {
         alert("Login successful");
+        localStorage.setItem("role", "admin");
+        localStorage.setItem("auth_token", response.data.token);
+        localStorage.setItem("admin_key",response.data.admin_key);
+        navigate("/admin");
       } else {
         console.log(response.data);
-        // setError("Login failed. Please check credentials.");
       }
-      navigate("/admin");
     }catch(error){
       console.error("Error during login:", error);
       alert("An error occurred during login. Please try again.");
     }
-    console.log("Email:", email, "Password:", password);
+    console.log("Email:", admin_email, "Password:", admin_password);
   };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-900">
-      {/* Background Image with Blur Effect */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -41,7 +42,6 @@ export default function Login() {
         }}
       ></div>
 
-      {/* Glass Effect Login Box (Ensuring No Blur Inside) */}
       <div className="relative backdrop-blur-lg bg-white/30 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-gray-800 text-center">
           Login
@@ -52,7 +52,7 @@ export default function Login() {
             <label className="block text-gray-700">Email</label>
             <input
               type="email"
-              value={email}
+              value={admin_email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
@@ -64,7 +64,7 @@ export default function Login() {
             <label className="block text-gray-700">Password</label>
             <input
               type="password"
-              value={password}
+              value={admin_password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required

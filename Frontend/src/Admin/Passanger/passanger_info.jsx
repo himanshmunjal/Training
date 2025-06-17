@@ -1,16 +1,49 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function PassangerInfo() {
+  const[result, setResult] = useState(null)
   const [passengers, setPassengers] = useState({
     pass_name: "",
     pass_id: "",
     pass_flight: "",
     search_by: "",
   });
-  const handlesubmit = (e) => {
+  const handlesubmit = async (e) => {
     e.preventDefault();
-    console.log("Passenger Details:", passengers);
+    // console.log("Passenger Details:", passengers);
+
+    try {
+      let response;
+      if (passengers.search_by === "id") {
+        response = await axios.get(
+          `http://localhost:2211/admin/details/${passengers.pass_id}`
+          
+        );
+      } else if (passengers.search_by === "name") {
+        response = await axios.get(
+          `http://localhost:2211/admin/detail/${passengers.pass_name}`
+        );
+      } else if (passengers.search_by === "flight") {
+        response = await axios.get(
+          `http://localhost:2211/passenger/by-flight`,
+          {
+            params: {
+              flight: passengers.pass_flight,
+              name: passengers.pass_name, // optional fallback name if needed
+            },
+          }
+        );
+      }
+
+      console.log("Passenger fetched:", response.data.Passenger);
+      setResult(response.data.Passenger)
+    } catch (error) {
+      console.error("Search failed:", error);
+      alert("Failed to fetch passenger. Please check details.");
+    }
   };
+
   const handleChange = (e) => {
     setPassengers({ ...passengers, [e.target.name]: e.target.value });
   };
@@ -25,11 +58,15 @@ export default function PassangerInfo() {
       >
         <label className="block text-lg font-medium">Select passanger by</label>
         <select
-        name="search_by" value={passengers.search_by}
-        onChange={handleChange}
-        required
-        className="w-full p-2 mb-4 mt-2 border border-gray-300 rounded focus:ring focus:ring-orange-300">
-          <option value="" disabled>Select Search Criteria</option>
+          name="search_by"
+          value={passengers.search_by}
+          onChange={handleChange}
+          required
+          className="w-full p-2 mb-4 mt-2 border border-gray-300 rounded focus:ring focus:ring-orange-300"
+        >
+          <option value="" disabled>
+            Select Search Criteria
+          </option>
           <option value="name">Name</option>
           <option value="id">ID</option>
           <option value="flight">Flight</option>
@@ -53,7 +90,7 @@ export default function PassangerInfo() {
             <input
               type="number"
               name="pass_id"
-              value={passengers.pass_name}
+              value={passengers.pass_id}
               onChange={handleChange}
               required
               className="w-full p-2 border mb-5 mt-2 border-gray-300 rounded focus:ring focus:ring-orange-300"
@@ -66,12 +103,14 @@ export default function PassangerInfo() {
             <input
               type="text"
               name="pass_flight"
-              value={passengers.pass_name}
+              value={passengers.pass_flight}
               onChange={handleChange}
               required
               className="w-full p-2 border mb-4 mt-2 border-gray-300 rounded focus:ring focus:ring-orange-300"
             />
-            <label className="block text-lg font-medium">Passanger Name(if Applied)</label>
+            <label className="block text-lg font-medium">
+              Passanger Name(if Applied)
+            </label>
             <input
               type="text"
               name="pass_id"
@@ -88,6 +127,17 @@ export default function PassangerInfo() {
           Search Passenger
         </button>
       </form>
+      {result && (
+        <div className="mt-6 bg-white p-4 shadow rounded">
+          <h3 className="text-lg font-semibold mb-2">Passenger Info</h3>
+          <p><strong>ID:</strong> {result.ID}</p>
+          <p><strong>Name:</strong> {result.pass_name}</p>
+          <p><strong>Contact:</strong> {result.pass_contact}</p>
+          <p><strong>Email:</strong> {result.pass_email}</p>
+          <p><strong>Aadhar/Passport ID:</strong> {result.aadhar_passport}</p>
+          {/* Add more fields as needed */}
+        </div>
+      )}
     </div>
   );
 }

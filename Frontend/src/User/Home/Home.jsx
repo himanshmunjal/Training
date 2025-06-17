@@ -26,7 +26,7 @@ export default function Home() {
         {Card("🧳", "Baggage Tracker", "/user/baggage-tracker")}
         {Card("ℹ️", "Complaint Registration", "/user/support")}
         {Card("👤", "User Profile", "/user/profile")}
-        {Card("🔧", "Holiday Packages", "/admin")}
+        {Card("👬", "Team SkyPort", "/user/team")}
       </div>
       <div className="text-center mt-8">
         <h2 className="text-2xl font-bold m-4">Explore More</h2>
