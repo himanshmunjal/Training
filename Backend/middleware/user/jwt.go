@@ -16,7 +16,6 @@ func GenerateToken(passengerID uint) (string, error) {
         "passenger_id": passengerID,
         "exp":          time.Now().Add(time.Hour * 30).Unix(),
     })
-
     return token.SignedString(secret)
 }
 

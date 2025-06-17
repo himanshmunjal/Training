@@ -11,7 +11,6 @@ import (
 
 var secret = []byte(os.Getenv("JWT_SECRET"))
 
-// 🔐 Generate token with admin_key
 func GenerateAdminToken(adminKey int) (string, error) {
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
         "admin_key": adminKey,
@@ -20,7 +19,6 @@ func GenerateAdminToken(adminKey int) (string, error) {
     return token.SignedString(secret)
 }
 
-// 🔐 Middleware to verify token and extract admin_key
 func AdminAuthMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
         tokenString := c.GetHeader("Authorization")
