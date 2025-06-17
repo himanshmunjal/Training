@@ -34,15 +34,12 @@ func Signup(c *gin.Context) {
 func Login(c *gin.Context) {
 	var input models.Admin
 
-	// Bind incoming JSON to input struct
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request format"})
 		return
 	}
 
 	var admin models.Admin
-
-	// Find admin by email
 	if err := config.DB.Where("admin_email = ?", input.Email).First(&admin).Error; err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error":       "User not found",
@@ -51,13 +48,11 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Check password
 	if !CheckPassword(input.Password, admin.Password) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid Password"})
 		return
 	}
 
-	// Generate JWT token
 	token, err := middleware.GenerateAdminToken(admin.Admin_Key)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
