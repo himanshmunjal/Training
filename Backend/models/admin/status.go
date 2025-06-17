@@ -10,5 +10,5 @@ type FlightStatus struct {
 }
 
 func (FlightStatus) TableName() string {
-	return "flightStatus"
+	return "flightstatus"
 }
