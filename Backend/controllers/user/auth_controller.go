@@ -26,7 +26,7 @@ func Signup(c *gin.Context) {
 	var existing models.Passengers
 	if err := config.DB.
 		Unscoped(). // 👈 If you want to include soft-deleted records, or remove this if not needed
-		Where("email = ? AND deleted_at IS NULL", passenger.Email).
+		Where("pass_email = ? AND deleted_at IS NULL", passenger.Email).
 		First(&existing).Error; err == nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "Email already registered"})
 		return
@@ -90,7 +90,7 @@ func Login(c *gin.Context) {
 
 	var passengers models.Passengers
 	if err := config.DB.Where("email = ?", input.Email).First(&passengers).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found", "pass_email": passengers.Email, "input_email": input.Email, "pass_password": passengers.Password, "input_password": input.Password})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found", "email": passengers.Email, "input_email": input.Email, "password": passengers.Password, "input_password": input.Password})
 		return
 	}
 

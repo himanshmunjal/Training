@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/himanshmunjal/Training/config"
-	models "github.com/himanshmunjal/Training/models/user"
 	model "github.com/himanshmunjal/Training/models/admin"
+	models "github.com/himanshmunjal/Training/models/user"
 )
 
 // func Baggage_info(c *gin.Context){
@@ -17,7 +17,6 @@ import (
 // 		})
 // 		return
 // 	}
-
 // 	var pass models.Passengers
 // 	if err:= config.DB.Where("pass_name = ? AND pass_id = ?",baggage.Passenger_name,baggage.Passenger_id).First(&pass).Error;err!=nil{
 // 		c.JSON(http.StatusUnauthorized,gin.H{
@@ -25,14 +24,12 @@ import (
 // 		})
 // 		return
 // 	}
-
 // 	if err:= config.DB.Where("pass_name = ? AND pass_id = ? AND airline = ?",baggage.Passenger_name,baggage.Passenger_id,baggage.Airline).Error; err!=nil{
 // 		c.JSON(http.StatusUnauthorized,gin.H{
 // 			"error":"No baggage with such details found",
 // 		})
 // 		return
 // 	}
-
 // 	c.JSON(http.StatusOK,gin.H{
 // 		"baggage":baggage,
 // 	})
@@ -45,7 +42,7 @@ func Baggage_info(c *gin.Context) {
 	airline := c.Query("airline")
 
 	var pass models.Passengers
-	if err := config.DB.Where("pass_name = ?  AND id = ?", passName, passId).First(&pass).Error; err != nil {
+	if err := config.DB.Where("name = ?  AND id = ?", passName, passId).First(&pass).Error; err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Username/ID not valid",
 		})

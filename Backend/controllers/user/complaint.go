@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/himanshmunjal/Training/config"
-	"github.com/himanshmunjal/Training/models/user"
+	models "github.com/himanshmunjal/Training/models/user"
 )
 
 func SubmitComplaint(c *gin.Context) {
@@ -17,8 +17,8 @@ func SubmitComplaint(c *gin.Context) {
 
 	// Check if passenger exists
 	var passenger models.Passengers
-	if err := config.DB.First(&passenger, complaint.PassID).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Passenger not found"})
+	if err := config.DB.Where("id = ? ", complaint.PassID).First(&passenger).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Passenger not found"})
 		return
 	}
 
