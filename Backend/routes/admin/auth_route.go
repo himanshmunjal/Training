@@ -16,5 +16,10 @@ func AdminAuth(r *gin.Engine) {
 		userGroup.POST("/advisory", controllers.Advisory)
 		userGroup.GET("/advisories", controllers.GetAllAdvisories)
 		userGroup.DELETE("/advisory/:id", controllers.DeleteAdvisory)
+		userGroup.GET("/details/:pass_id", controllers.FindbyID)
+		userGroup.GET("/detail/:pass_name", controllers.FindbyName)
+		userGroup.POST("/addemp/:admin_key", controllers.Addemp)
+		userGroup.DELETE("/deleteemp/:emp_id/:emp_name/:admin_key", controllers.DeleteEmp)
+		userGroup.GET("/getemp", controllers.Getemp)
 	}
 }

@@ -14,7 +14,8 @@ func AuthRoutes(r *gin.Engine) {
 		userGroup.GET("/status", controllers.FlightInfo)
 		userGroup.GET("/baggage", controllers.Baggage_info)
 		userGroup.POST("/submit", controllers.SubmitComplaint)
-
+		userGroup.GET("/profile/:id", controllers.UserProfile)
+		userGroup.PUT("/update/:id", controllers.UpdateUserProfile)
 	}
 
 }
