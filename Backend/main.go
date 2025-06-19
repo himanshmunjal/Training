@@ -13,12 +13,14 @@ import (
 
 func main() {
 	config.InitDB()
+
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
-			"http://localhost:5173","skyport-b.onrender.com",
+			"http://localhost:5173",       
+			"https://skyport-b.onrender.com",
 		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Authorization", "Content-Type"},
@@ -28,5 +30,13 @@ func main() {
 	routes.AuthRoutes(r)
 	route.AdminAuth(r)
 	routeh.HeroRoute(r)
-	r.Run(":" + os.Getenv("PORT"))
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Println("Starting server on port:", port)
+	if err := r.Run(":" + port); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }
