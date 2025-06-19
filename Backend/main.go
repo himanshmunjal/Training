@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"log"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
