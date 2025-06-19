@@ -32,12 +32,20 @@ func SyncDB() {
 }
 
 func InitDB() {
-	var err error
-	_ = godotenv.Load()
+	if os.Getenv("RENDER") == "" {
+		_ = godotenv.Load()
+	}
+
 	dsn := os.Getenv("DATABASE_URL")
+	if dsn == "" {
+		log.Fatal("DATABASE_URL not set")
+	}
+
+	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("failed to connect to DB: %v", err)
 	}
+
 	SyncDB()
 }
