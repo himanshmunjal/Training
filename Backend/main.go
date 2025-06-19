@@ -18,7 +18,8 @@ func main() {
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"http://localhost:5173",
-			"https://skyport-frontend.onrender.com/"},
+				       "https://9d07-2401-4900-8811-a1fe-2923-adf0-5b05-9c2f.ngrok-free.app",Add commentMore actions
+		"https://4d0f-2401-4900-8811-a1fe-2923-adf0-5b05-9c2f.ngrok-free.app"},},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Authorization", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},
