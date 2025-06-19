@@ -37,7 +37,7 @@ export default function FlightManage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:2211/admin/manage",
+        "https://skyport-b.onrender.com/admin/manage",
         formData
       );
       if (response.status === 200) {

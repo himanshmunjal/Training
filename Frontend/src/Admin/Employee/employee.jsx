@@ -26,7 +26,7 @@ export default function Employee() {
   
       if (formData.option === "add") {
         response = await axios.post(
-          `http://localhost:2211/admin/addemp/${formData.admin_key}`,
+          `https://skyport-b.onrender.com/admin/addemp/${formData.admin_key}`,
           {
             emp_id: formData.emp_id,
             emp_name: formData.emp_name,
@@ -48,7 +48,7 @@ export default function Employee() {
         }
       } else if (formData.option === "delete") {
         response = await axios.delete(
-          `http://localhost:2211/admin/deleteemp/${formData.emp_id}/${formData.emp_name}/${formData.admin_key}`
+          `https://skyport-b.onrender.com/admin/deleteemp/${formData.emp_id}/${formData.emp_name}/${formData.admin_key}`
         );
   
         if (response.status === 200) {
@@ -68,16 +68,16 @@ export default function Employee() {
   
         switch (formData.parameter) {
           case "emp_id_search":
-            url = `http://localhost:2211/admin/searchbyid/${formData.emp_id}`;
+            url = `https://skyport-b.onrender.com/admin/searchbyid/${formData.emp_id}`;
             break;
           case "emp_name_search":
-            url = `http://localhost:2211/admin/searchbyname/${formData.emp_name}`;
+            url = `https://skyport-b.onrender.com/admin/searchbyname/${formData.emp_name}`;
             break;
           case "emp_department_search":
-            url = `http://localhost:2211/admin/searchbydepartment/${formData.emp_department}`;
+            url = `https://skyport-b.onrender.com/admin/searchbydepartment/${formData.emp_department}`;
             break;
           case "getall":
-            url = `http://localhost:2211/admin/search`;
+            url = `https://skyport-b.onrender.com/admin/search`;
             break;
           default:
             alert("Invalid search parameter selected.");

@@ -19,7 +19,7 @@ export default function BookingPage() {
 
   const handleConfirm = async () => {
     try {
-      await axios.post("http://localhost:2211/user/book", {
+      await axios.post("https://skyport-b.onrender.com/user/book", {
         flightId: flight.flightId,
         seats: passengerDetails.length,
         benefit: benefitType,

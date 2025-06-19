@@ -17,7 +17,7 @@ export default function Status() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get("http://localhost:2211/user/status", {
+      const response = await axios.get("https://skyport-b.onrender.com/user/status", {
         params: {
           airline: formData.airline,
           flight_id: formData.flight_id,

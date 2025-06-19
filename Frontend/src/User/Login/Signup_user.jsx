@@ -24,7 +24,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:2211/user/signup", {
+      const response = await axios.post("https://skyport-b.onrender.com/user/signup", {
         pass_name: formData.pass_name,
         pass_contact: formData.pass_contact,
         pass_email: formData.pass_email,

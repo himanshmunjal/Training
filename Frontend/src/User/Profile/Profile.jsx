@@ -14,7 +14,7 @@ export default function UserProfile() {
 
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`http://localhost:2211/user/profile/${passengerId}`, {
+        const res = await axios.get(`https://skyport-b.onrender.com/user/profile/${passengerId}`, {
           headers: { Authorization: token },
         });
         setUser(res.data);
@@ -25,7 +25,7 @@ export default function UserProfile() {
 
     const fetchBookings = async () => {
       try {
-        const res = await axios.get(`http://localhost:2211/user/bookings/${passengerId}`, {
+        const res = await axios.get(`https://skyport-b.onrender.com/user/bookings/${passengerId}`, {
           headers: { Authorization: token },
         });
         setBookings(res.data);

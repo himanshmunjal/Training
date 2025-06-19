@@ -57,7 +57,7 @@ export default function BookingForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:2211/user/booking", formData);
+      const res = await axios.post("https://skyport-b.onrender.com/user/booking", formData);
       localStorage.setItem("flightResults", JSON.stringify(res.data.flights));
       localStorage.setItem("searchPayload", JSON.stringify(formData));
       navigate("/user/filter");

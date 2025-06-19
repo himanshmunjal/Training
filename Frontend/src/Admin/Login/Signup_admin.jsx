@@ -42,7 +42,7 @@ export default function Signup() {
       }
 
       try{
-        const response = await axios.post("http://localhost:2211/admin/signup", {
+        const response = await axios.post("https://skyport-b.onrender.com/admin/signup", {
         admin_name: formData.admin_name,
         admin_contact: parseInt(formData.admin_contact, 10),
         admin_email: formData.admin_email,

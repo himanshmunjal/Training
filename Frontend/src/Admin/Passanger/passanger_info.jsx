@@ -17,16 +17,16 @@ export default function PassangerInfo() {
       let response;
       if (passengers.search_by === "id") {
         response = await axios.get(
-          `http://localhost:2211/admin/details/${passengers.pass_id}`
+          `https://skyport-b.onrender.com/admin/details/${passengers.pass_id}`
           
         );
       } else if (passengers.search_by === "name") {
         response = await axios.get(
-          `http://localhost:2211/admin/detail/${passengers.pass_name}`
+          `https://skyport-b.onrender.com/admin/detail/${passengers.pass_name}`
         );
       } else if (passengers.search_by === "flight") {
         response = await axios.get(
-          `http://localhost:2211/passenger/by-flight`,
+          `https://skyport-b.onrender.com/passenger/by-flight`,
           {
             params: {
               flight: passengers.pass_flight,

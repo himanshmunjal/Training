@@ -18,7 +18,7 @@ export default function Baggage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get("http://localhost:2211/user/baggage", {
+      const response = await axios.get("https://skyport-b.onrender.com/user/baggage", {
         params: {
           pass_id: formData.pass_id,
           baggage_id: formData.baggage_id,

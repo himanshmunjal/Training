@@ -77,7 +77,7 @@ function Home() {
   useEffect(() => {
     const fetchAdvisories = async () => {
       try {
-        const res = await axios.get("http://localhost:2211/hero/advisory");
+        const res = await axios.get("https://skyport-b.onrender.com/hero/advisory");
         if (res.status === 200) {
           setAdvisories(res.data.advisory); // match your backend response structure
           console.log(res)

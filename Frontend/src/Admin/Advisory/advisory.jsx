@@ -20,7 +20,7 @@ export default function AdvisoryForm() {
 
   const fetchAdvisories = async () => {
     try {
-      const response = await axios.get("http://localhost:2211/admin/advisories");
+      const response = await axios.get("https://skyport-b.onrender.com/admin/advisories");
       setAdvisories(response.data);
     } catch (error) {
       console.error("Error fetching advisories:", error);
@@ -34,7 +34,7 @@ export default function AdvisoryForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:2211/admin/advisory", {
+      const response = await axios.post("https://skyport-b.onrender.com/admin/advisory", {
         admin_key: parseInt(formData.admin_key),
         advisory_title: formData.advisory_title,
         advisory_text: formData.advisory_text,
@@ -66,7 +66,7 @@ export default function AdvisoryForm() {
     if (!window.confirm("Are you sure you want to delete this advisory?")) return;
 
     try {
-      await axios.delete(`http://localhost:2211/admin/advisory/${id}`);
+      await axios.delete(`https://skyport-b.onrender.com/admin/advisory/${id}`);
       setAdvisories(advisories.filter((adv) => adv.advisory_id !== id));
     } catch (error) {
       console.error("Error deleting advisory:", error);

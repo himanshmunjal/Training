@@ -18,7 +18,7 @@ export default function Baggage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      const response = await axios.post("http://localhost:2211/admin/baggage", formData);
+      const response = await axios.post("https://skyport-b.onrender.com/admin/baggage", formData);
       if (response.status === 200) {
         alert("Baggage details Added successfully!");
       }else{

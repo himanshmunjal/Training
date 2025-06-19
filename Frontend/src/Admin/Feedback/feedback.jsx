@@ -17,7 +17,7 @@ export default function Feedback() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:2211/admin/feedback",
+        "https://skyport-b.onrender.com/admin/feedback",
         formData
       );
       if (response.status === 200) {

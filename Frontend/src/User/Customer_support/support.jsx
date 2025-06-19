@@ -22,7 +22,7 @@ export default function Support() {
     // setError("");
 
     try {
-      const response = await axios.post("http://localhost:2211/user/submit", {
+      const response = await axios.post("https://skyport-b.onrender.com/user/submit", {
         pass_id: parseInt(formData.Pass_id, 10),
         pass_name: formData.name,
         airline: formData.airline,

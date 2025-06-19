@@ -12,7 +12,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:2211/user/login", {
+      const response = await axios.post("https://skyport-b.onrender.com/user/login", {
         pass_email:email,
         pass_password:password
       });
