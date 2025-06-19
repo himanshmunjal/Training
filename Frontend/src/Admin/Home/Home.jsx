@@ -17,9 +17,9 @@ export default function Home(){
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 mb-6 mt-6'>
           {Card('✈️', 'Flight Status', '/admin/flight-status')}
-          {Card('📅', 'Schedule Management', '/schedules')}
+          {Card('📅', 'Schedule Management', '/admin/flight-Manage')}
           {Card('📊', 'Advisory', '/admin/advisory')}
-          {Card('🛬', 'Arrival/Departure', '/admin/arrivals-departures')}
+          {Card('ℹ️', 'Feedback View', '/admin/feedback')}
           {Card('👥', 'Employee Details', '/admin/employee')}
           {Card('🔧', 'Passanger Info', '/admin/passenger-info')}
         </div>

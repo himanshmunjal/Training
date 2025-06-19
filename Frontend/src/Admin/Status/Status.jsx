@@ -9,6 +9,10 @@ export default function Status() {
     source: "",
     destination: "",
     flight_status: "",
+    depart_terminal: "",
+    arrival_terminal: "",
+    depart_time: "",
+    arrival_time: ""
   });
 
   const handleChange = (e) => {
@@ -17,76 +21,73 @@ export default function Status() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const response = await axios.post("http://localhost:2211/admin/status",{
+    try {
+      const response = await axios.post("http://localhost:2211/admin/status", {
         airline: formData.airline,
         flight_id: formData.flight_id,
         date: formData.date,
         source: formData.source,
         destination: formData.destination,
         flight_status: formData.flight_status,
+        depart_terminal: formData.depart_terminal,
+        arrival_terminal: formData.arrival_terminal,
+        depart_time: formData.depart_time,
+        arrival_time: formData.arrival_time
       });
       if (response.status === 200) {
         alert("Flight details added successfully");
       } else {
-        console.log(response.data);
-        alert("Failed to add flight details. Please check your input.");
+        alert("⚠️ Failed to add flight details. Please check your input.");
       }
-    }catch(error){
+    } catch (error) {
       console.error("Error Adding flight details:", error);
-      alert("An error occurred while fetching flight details. Please try again.");
+      alert("An error occurred. Please try again.");
     }
-    
-    console.log("Flight Details:", formData);
   };
-  
+
   return (
-    <> {/* Fixed Header */}
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 px-6">
-        <h1 className="text-3xl font-semibold text-orange-600 mb-6">Enter the details to fetch flight details</h1>
-        
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-          <div className="space-y-4">
-            <label className="block text-lg font-medium">Airline Name</label>
-            <input type="text" name="airline" value={formData.airline} onChange={handleChange} required 
-              className="w-full p-2 border border-gray-300 rounded focus:ring focus:ring-orange-300" />
-            
-            <label className="block text-lg font-medium">Flight Number</label>
-            <input type="text" name="flight_id" value={formData.flight_id} onChange={handleChange} required 
-              className="w-full p-2 border border-gray-300 rounded focus:ring focus:ring-orange-300" />
-           
-            <label className="block text-lg font-medium">Flight Status</label>
-            <input type="text" name="flight_status" value={formData.flight_status} onChange={handleChange} required 
-              className="w-full p-2 border border-gray-300 rounded focus:ring focus:ring-orange-300" />
-            
-            <label className="block text-lg font-medium">Source</label>
-            <input type="text" name="source" value={formData.source} onChange={handleChange} required 
-              className="w-full p-2 border border-gray-300 rounded focus:ring focus:ring-orange-300" />
-            
-            <label className="block text-lg font-medium">Destination</label>
-            <input type="text" name="destination" value={formData.destination} onChange={handleChange} required 
-              className="w-full p-2 border border-gray-300 rounded focus:ring focus:ring-orange-300" />
-
-            <label className="block text-lg font-medium">Date</label>
-            <input type="date" name="date" value={formData.date} onChange={handleChange} required 
-              className="w-full p-2 border border-gray-300 rounded focus:ring focus:ring-orange-300" />
-
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
+      <h1 className="text-3xl font-semibold text-orange-600 mb-6 mt-6">
+        Add Flight Details
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg space-y-4 mb-6"
+      >
+        {[
+          { label: "Airline Name", name: "airline", type: "text" },
+          { label: "Flight Number", name: "flight_id", type: "text" },
+          { label: "Flight Status", name: "flight_status", type: "text" },
+          { label: "Source", name: "source", type: "text" },
+          { label: "Departure Terminal", name: "depart_terminal", type: "number" },
+          { label: "Destination", name: "destination", type: "text" },
+          { label: "Arrival Terminal", name: "arrival_terminal", type: "number" },
+          { label: "Departure Time", name: "depart_time", type: "time" },
+          { label: "Arrival Time", name: "arrival_time", type: "time" },
+          { label: "Date", name: "date", type: "date" }
+        ].map((field) => (
+          <div key={field.name}>
+            <label className="block text-lg font-medium text-gray-700 mb-1">
+              {field.label}
+            </label>
+            <input
+              type={field.type}
+              name={field.name}
+              value={formData[field.name]}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:ring focus:ring-orange-300"
+            />
           </div>
+        ))}
 
-          <button type="submit" className="w-full mt-6 py-2 bg-orange-600 text-white font-bold rounded-lg hover:bg-orange-700 transition-all">
-            Submit
-          </button>
-        </form>
-      </div>
-    </>
+        <button
+          type="submit"
+          className="w-full py-2 mt-4 bg-orange-600 text-white font-bold rounded hover:bg-orange-700 transition"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
   );
 }
-
-// setFormData({
-//   airline: "",
-//   flight_id: "",
-//   date: "",
-//   source: "",
-//   destination: "",
-//   flight_status: "",
-// });

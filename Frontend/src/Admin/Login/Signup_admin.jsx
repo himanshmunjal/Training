@@ -12,6 +12,7 @@ export default function Signup() {
     admin_password: "",
     confirmPassword: "",
     admin_key: "", // Stores additional info based on user type
+    dob: ""
   });
 
   const [error, setError] = useState("");
@@ -47,6 +48,7 @@ export default function Signup() {
         admin_email: formData.admin_email,
         admin_password: formData.admin_password,
         admin_key: parseInt(formData.admin_key, 10),
+        dob: formData.dob
       });
       if (response.status === 200) {
         alert("Signup successful");
@@ -107,6 +109,18 @@ export default function Signup() {
               value={formData.admin_email}
               onChange={handleChange}
               placeholder="Enter your email"
+              required
+              className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700">Date of Birth</label>
+            <input
+              type="Date"
+              name="dob"
+              value={formData.dob}
+              onChange={handleChange}
+              placeholder="Enter your Date of Birth"
               required
               className="w-full p-2 rounded border border-gray-300 focus:ring focus:ring-orange-300"
             />

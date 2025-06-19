@@ -36,7 +36,7 @@ export default function Status() {
     } catch (err) {
       setFlightData(null);
       console.error("Error fetching flight data:", err);
-      setError("An error occurred while fetching flight details.");
+      setError("No flight with following details exists");
     }
   };
 
@@ -98,8 +98,8 @@ export default function Status() {
           <p><strong>Airline:</strong> {flightData.airline}</p>
           <p><strong>Date:</strong> {flightData.date}</p>
           <p><strong>Status:</strong> {flightData.flight_status}</p>
-          <p><strong>Source:</strong> {flightData.source}</p>
-          <p><strong>Destination:</strong> {flightData.destination}</p>
+          <p><strong>Source:</strong> {flightData.source} <strong className="ml-20">Terminal:</strong> {flightData.depart_terminal} <strong className="ml-3">Departure Time:</strong> {flightData.depart_time}</p>
+          <p><strong>Destination:</strong> {flightData.destination} <strong className="ml-6">Terminal:</strong> {flightData.arrival_terminal} <strong className="ml-3">Departure Time:</strong> {flightData.arrival_time}</p>
         </div>
       )}
     </div>

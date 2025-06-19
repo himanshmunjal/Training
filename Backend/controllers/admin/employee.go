@@ -148,3 +148,49 @@ func Getemp(c *gin.Context) {
 	}
 	c.JSON(200, emp)
 }
+
+func Getempbyid(c *gin.Context) {
+    id := c.Param("id") // this is the URL param
+
+    var emp models.Employee
+    if err := config.DB.Where("id = ?", id).First(&emp).Error; err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Employee ID not valid"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "message":  "Employee details successfully fetched",
+        "employee": emp,
+    })
+}
+
+func Getempbyname(c *gin.Context) {
+	name := c.Param("name")
+
+	var emp []models.Employee
+	if err := config.DB.Where("name = ?", name).Find(&emp).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Employee ID not valid",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message":  "Employee details successfully fetched",
+		"employee": emp,
+	})
+}
+
+func Getempbydepartment(c *gin.Context) {
+	department := c.Param("department")
+	var emp []models.Employee
+	if err := config.DB.Where("department = ?", (department)).Find(&emp).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Employee ID not valid",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message":  "Employee details successfully fetched",
+		"employee": emp,
+	})
+}

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [admin_email, setEmail] = useState("");
   const [admin_password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,16 +19,19 @@ export default function Login() {
     });
       if (response.status === 200 && response.data.admin_key && response.data.token) {
         alert("Login successful");
+        setError("");
         localStorage.setItem("role", "admin");
         localStorage.setItem("auth_token", response.data.token);
         localStorage.setItem("admin_key",response.data.admin_key);
         navigate("/admin");
       } else {
+        setError("Login Failed. Check Credantials.");
         console.log(response.data);
       }
     }catch(error){
       console.error("Error during login:", error);
-      alert("An error occurred during login. Please try again.");
+      // alert("An error occurred during login. Please try again.");
+      setError("Login Failed. Check Credantials.")
     }
     console.log("Email:", admin_email, "Password:", admin_password);
   };

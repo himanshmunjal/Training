@@ -16,7 +16,7 @@ func Addstatus(c *gin.Context) {
 	}
 
 	if err := config.DB.Create(&flight).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register complaint"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register flight"})
 		return
 	}
 

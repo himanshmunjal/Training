@@ -1,6 +1,8 @@
 import { useState,useEffect } from "react";
 import React from "react";
 import { Link } from "react-router-dom"; // ✅ Fix: Import Link for routing
+import axios from "axios";
+
 
 function Home() {
   const travelFacts = [
@@ -75,20 +77,24 @@ function Home() {
   useEffect(() => {
     const fetchAdvisories = async () => {
       try {
-        const response = await fetch("http://localhost:2211/hero/advisory"); 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        const res = await axios.get("http://localhost:2211/hero/advisory");
+        if (res.status === 200) {
+          setAdvisories(res.data.advisory); // match your backend response structure
+          console.log(res)
+        } else {
+          console.warn("No advisories found.");
+          setAdvisories([]);
         }
-        const data = await response.json();
-        setAdvisories(data);
-      } catch (error) {
-        console.error("Error fetching advisories:", error);
+      } catch (err) {
+        console.error("Error fetching advisories:", err);
       }
     };
+  
     fetchAdvisories();
-    const interval = setInterval(fetchAdvisories, 60000);
+    const interval = setInterval(fetchAdvisories, 60000); // refresh every 60s
     return () => clearInterval(interval);
   }, []);
+  
 
   const [darkMode, setDarkMode] = useState(false); // State for dark mode
 
@@ -169,9 +175,13 @@ function Home() {
             <li className="text-gray-700 pl-2 relative hover:text-orange-600 transition-all duration-200">
             {advisories.length > 0 ? (
               advisories.map((advisory, index) => (
-                <span key={index} className="ml-6 underline underline-offset-4">
-                  <strong>{advisory.AdvisoryTitle}</strong>{advisory.AdvisoryText}
-                </span>
+                <ul className="list-disc">
+                  <li>
+                  <span key={index} className="ml-6">
+                   <strong className="underline underline-offset-4">{advisory.advisory_title}</strong>: {advisory.advisory_text}
+                  </span>
+                  </li>
+                </ul>
               ))
             ) : (
               <span className="ml-6">No advisories available at the moment.</span>

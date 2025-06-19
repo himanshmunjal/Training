@@ -22,6 +22,7 @@ func SyncDB() {
 		&model.FlightStatus{},
 		&model.Advisory{},
 		&model.Employee{},
+		&model.Management{},
 
 		// USER
 		&models.Passengers{},

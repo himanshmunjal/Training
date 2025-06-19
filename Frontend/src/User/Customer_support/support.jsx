@@ -4,10 +4,11 @@ import { useState } from "react";
 export default function Support() {
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    name: "",
     Pass_id: "",
     airline: "",
     message: "",
+    name:"",
+    date:"",
   });
 
   const [submittedComplaint, setSubmittedComplaint] = useState(null); // ✅ Stores registered complaint
@@ -23,12 +24,13 @@ export default function Support() {
     try {
       const response = await axios.post("http://localhost:2211/user/submit", {
         pass_id: parseInt(formData.Pass_id, 10),
-        name: formData.name,
+        pass_name: formData.name,
         airline: formData.airline,
         message: formData.message,
+        date: formData.date
       });
       if (response.status === 200) {
-        alert("Complaint registered successfully!");
+        alert("Feedback registered successfully!");
         setSubmittedComplaint(formData);
       } else {
         setError("Failed to register complaint. Please try again.");
@@ -77,7 +79,20 @@ export default function Support() {
               <input
                 type="number"
                 name="Pass_id"
-                value={formData.passengerID}
+                value={formData.Pass_id}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Date
+              </label>
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
                 onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded-lg"
                 required
@@ -128,19 +143,22 @@ export default function Support() {
       {submittedComplaint && (
         <div className="mt-6 p-4 mb-7 bg-white shadow-md rounded max-w-5xl mx-auto">
           <h3 className="text-lg font-semibold text-orange-600">
-            Complaint Details
+            Feedback Details
           </h3>
           <p>
             <strong>Name:</strong> {submittedComplaint.name}
           </p>
           <p>
-            <strong>Passenger ID:</strong> {submittedComplaint.passengerID}
+            <strong>Passenger ID:</strong> {submittedComplaint.Pass_id}
           </p>
           <p>
             <strong>Airline:</strong> {submittedComplaint.airline}
           </p>
           <p>
             <strong>Message:</strong> {submittedComplaint.message}
+          </p>
+          <p>
+            <strong>Date:</strong> {submittedComplaint.date}
           </p>
           <p className="text-center">
             <strong>Our team will reach out to you within 24 Hours.</strong>

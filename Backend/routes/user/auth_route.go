@@ -16,6 +16,8 @@ func AuthRoutes(r *gin.Engine) {
 		userGroup.POST("/submit", controllers.SubmitComplaint)
 		userGroup.GET("/profile/:id", controllers.UserProfile)
 		userGroup.PUT("/update/:id", controllers.UpdateUserProfile)
+		userGroup.POST("/booking", controllers.SearchFlights)
+		userGroup.POST("/book", controllers.BookFlight)
 	}
 
 }

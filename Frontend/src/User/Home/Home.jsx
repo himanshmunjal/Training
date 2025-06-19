@@ -24,7 +24,7 @@ export default function Home() {
         {Card("✈️", "Flight Status", "/user/flight-status")}
         {Card("📅", "Flight Booking", "/user/flight-bookings")}
         {Card("🧳", "Baggage Tracker", "/user/baggage-tracker")}
-        {Card("ℹ️", "Complaint Registration", "/user/support")}
+        {Card("ℹ️", "Complaint/Feedback", "/user/support")}
         {Card("👤", "User Profile", "/user/profile")}
         {Card("👬", "Team SkyPort", "/user/team")}
       </div>
