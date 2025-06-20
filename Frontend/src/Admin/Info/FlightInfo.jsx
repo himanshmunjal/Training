@@ -22,22 +22,22 @@ export default function FlightInfo() {
       let url = "";
       switch (formData.option) {
         case "id":
-          url = `http://localhost:2211/admin/flightsbyid/${formData.id}`;
+          url = `https://skyport-b.onrender.com/flightsbyid/${formData.id}`;
           break;
         case "name":
-          url = `http://localhost:2211/admin/flightsbyairline/${formData.name}`;
+          url = `https://skyport-b.onrender.com/admin/flightsbyairline/${formData.name}`;
           break;
         case "source":
-          url = `http://localhost:2211/admin/flightsbysource/${formData.source}`;
+          url = `https://skyport-b.onrender.com/admin/flightsbysource/${formData.source}`;
           break;
         case "destination":
-          url = `http://localhost:2211/admin/flightsbydestination/${formData.destination}`;
+          url = `https://skyport-b.onrender.com/admin/flightsbydestination/${formData.destination}`;
           break;
         case "date":
-          url = `http://localhost:2211/admin/flightsbydate/${formData.date}`;
+          url = `https://skyport-b.onrender.com/admin/flightsbydate/${formData.date}`;
           break;
         case "all":
-          url = `http://localhost:2211/admin/flights`;
+          url = `https://skyport-b.onrender.com/admin/flights`;
           break;
         default:
             alert("Not able to fetch");
