@@ -27,5 +27,11 @@ func AdminAuth(r *gin.Engine) {
 		userGroup.GET("/searchbyid/:id", controllers.Getempbyid)
 		userGroup.GET("/searchbyname/:name", controllers.Getempbyname)
 		userGroup.GET("/searchbydepartment/:department", controllers.Getempbydepartment)
+		userGroup.GET("/flights", controllers.GetAll)
+		userGroup.GET("/flightsbyid/:id", controllers.GetbyID)
+		userGroup.GET("/flightsbyairline/:airline", controllers.Getbyairline)
+		userGroup.GET("/flightsbysource/:source", controllers.Getbysource)
+		userGroup.GET("/flightsbydestination/:destination", controllers.Getbydestination)
+		userGroup.GET("/flightsbydate/:date", controllers.Getbydate)
 	}
 }

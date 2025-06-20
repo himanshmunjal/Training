@@ -37,6 +37,7 @@ const Employee = React.lazy(() => import("./Admin/Employee/employee.jsx"));
 const Pass_Info = React.lazy(() =>import("./Admin/Passanger/passanger_info.jsx"));
 const FlightManage = React.lazy(() =>import("./Admin/FlightManage/flightManage.jsx"));
 const Feedback = React.lazy(() =>import("./Admin/Feedback/feedback.jsx"));
+const FlightInfo = React.lazy(()=>import("./Admin/Info/FlightInfo.jsx"))
 
 const router = createBrowserRouter([
   {
@@ -190,6 +191,14 @@ const router = createBrowserRouter([
             <HomeAdmin />
           </Suspense>
         ),
+      },
+      {
+        path:"flight-info",
+        element:(
+          <Suspense>
+            <FlightInfo />
+          </Suspense>
+        )
       },
       {
         path:"feedback",

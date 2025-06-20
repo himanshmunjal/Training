@@ -61,9 +61,7 @@ export default function Employee() {
         } else {
           alert("Failed to delete employee");
         }
-      }
-  
-      if (formData.option === "search" || response?.status === 200) {
+      }else if (formData.option === "search" || response?.status === 200) {
         let url = "";
   
         switch (formData.parameter) {
@@ -82,8 +80,8 @@ export default function Employee() {
           default:
             alert("Invalid search parameter selected.");
             return;
-        }
-  
+          }
+          
         const searchResponse = await axios.get(url);
         setres(
           Array.isArray(searchResponse.data.employee)
@@ -326,7 +324,7 @@ export default function Employee() {
           <h2 className="text-xl font-semibold text-gray-700 p-4 border-b">
             Employee Details
           </h2>
-          <table className="min-w-full text-sm text-left">
+          <table className="min-w-min text-sm text-left">
             <thead className="bg-orange-50 text-gray-700">
               <tr>
                 <th className="px-4 py-3 border">Employee Name</th>
