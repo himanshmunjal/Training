@@ -22,7 +22,7 @@ export default function FlightInfo() {
       let url = "";
       switch (formData.option) {
         case "id":
-          url = `https://skyport-b.onrender.com/flightsbyid/${formData.id}`;
+          url = `https://skyport-b.onrender.com/admin/flightsbyid/${formData.id}`;
           break;
         case "name":
           url = `https://skyport-b.onrender.com/admin/flightsbyairline/${formData.name}`;
