@@ -15,6 +15,7 @@ export default function FlightInfo() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [errorMessage, setErrorMessage] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,8 +41,8 @@ export default function FlightInfo() {
           url = `https://skyport-b.onrender.com/admin/flights`;
           break;
         default:
-            alert("Not able to fetch");
-          return; 
+          setErrorMessage("Not able to fetch");
+          return;
       }
 
       const response = await axios.get(url);
@@ -53,7 +54,7 @@ export default function FlightInfo() {
       console.log(response.data);
     } catch (error) {
       console.error("Request failed:", error);
-      alert("Server error occurred. Check console for details.");
+      setErrorMessage("Server error occurred. Check console for details.");
     }
   };
   return (
@@ -182,21 +183,35 @@ export default function FlightInfo() {
               </tr>
             </thead>
             <tbody>
-              {res.map((flight, index) => (
-                <tr key={index} className="text-gray-800">
-                  <td className="px-4 py-2 border">{flight.flightId}</td>
-                  <td className="px-4 py-2 border">{flight.airline}</td>
-                  <td className="px-4 py-2 border">{flight.source}</td>
-                  <td className="px-4 py-2 border">
-  {new Date(flight.depart_date).toLocaleDateString()}
-</td>
-
-                  <td className="px-4 py-2 border">{flight.depart_time}</td>
-                  <td className="px-4 py-2 border">{flight.destination}</td>
+              {res.length > 0 ? (
+                res.map((flight, index) => (
+                  <tr key={index} className="text-gray-800">
+                    <td className="px-4 py-2 border">{flight.flightId}</td>
+                    <td className="px-4 py-2 border">{flight.airline}</td>
+                    <td className="px-4 py-2 border">{flight.source}</td>
+                    <td className="px-4 py-2 border">
+                      {new Date(flight.depart_date).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-2 border">{flight.depart_time}</td>
+                    <td className="px-4 py-2 border">{flight.destination}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center py-4 text-gray-500">
+                    No flights found.
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
+        </div>
+        <div>
+          {errorMessage && (
+            <div className="mb-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+              {errorMessage}
+            </div>
+          )}
         </div>
       </div>
     </>

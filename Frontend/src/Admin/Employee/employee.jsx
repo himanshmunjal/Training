@@ -14,16 +14,19 @@ export default function Employee() {
   });
 
   const [res, setres] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       let response;
-  
+
       if (formData.option === "add") {
         response = await axios.post(
           `https://skyport-b.onrender.com/admin/addemp/${formData.admin_key}`,
@@ -35,35 +38,39 @@ export default function Employee() {
             emp_email: formData.emp_email,
           }
         );
-  
+
         if (response.status === 200) {
-          alert("Employee added successfully");
+          setSuccessMessage("Employee added successfully.");
+          setErrorMessage("");
           setFormData((prev) => ({
             ...prev,
             option: "search",
             parameter: "getall",
           }));
         } else {
-          alert("Error adding employee");
+          setErrorMessage("Error adding employee.");
+          setSuccessMessage("");
         }
       } else if (formData.option === "delete") {
         response = await axios.delete(
           `https://skyport-b.onrender.com/admin/deleteemp/${formData.emp_id}/${formData.emp_name}/${formData.admin_key}`
         );
-  
+
         if (response.status === 200) {
-          alert("Employee deleted successfully");
+          setSuccessMessage("Employee deleted successfully.");
+          setErrorMessage("");
           setFormData((prev) => ({
             ...prev,
             option: "search",
             parameter: "getall",
           }));
         } else {
-          alert("Failed to delete employee");
+          setErrorMessage("Failed to delete employee.");
+          setSuccessMessage("");
         }
-      }else if (formData.option === "search" || response?.status === 200) {
+      } else if (formData.option === "search" || response?.status === 200) {
         let url = "";
-  
+
         switch (formData.parameter) {
           case "emp_id_search":
             url = `https://skyport-b.onrender.com/admin/searchbyid/${formData.emp_id}`;
@@ -78,24 +85,25 @@ export default function Employee() {
             url = `https://skyport-b.onrender.com/admin/search`;
             break;
           default:
-            alert("Invalid search parameter selected.");
+            setErrorMessage("Invalid search parameter selected.");
+            setSuccessMessage("");
             return;
-          }
-          
+        }
+
         const searchResponse = await axios.get(url);
         setres(
           Array.isArray(searchResponse.data.employee)
             ? searchResponse.data.employee
             : [searchResponse.data.employee]
         );
-        console.log(searchResponse.data)
+        console.log(searchResponse.data);
       }
     } catch (error) {
       console.error("Request failed:", error);
-      alert("Server error occurred. Check console for details.");
+      setErrorMessage("Server error occurred. Check console for details.");
+      setSuccessMessage("");
     }
-  
-    // Clear form fields (but preserve selected options for search results)
+
     setFormData((prev) => ({
       ...prev,
       emp_id: "",
@@ -106,7 +114,6 @@ export default function Employee() {
       admin_key: "",
     }));
   };
-  
 
   return (
     <>
@@ -114,7 +121,7 @@ export default function Employee() {
         <h1 className="text-3xl font-semibold text-orange-600 mb-6">
           Enter Employee Details
         </h1>
-
+        
         <form
           onSubmit={handleSubmit}
           className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
@@ -348,6 +355,16 @@ export default function Employee() {
           </table>
         </div>
       )}
+      {successMessage && (
+          <div className="mb-4 text-green-700 bg-green-100 border border-green-300 p-3 m-5 rounded w-full max-w-md">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="mb-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded w-full max-w-md">
+            {errorMessage}
+          </div>
+        )}
       </div>
     </>
   );

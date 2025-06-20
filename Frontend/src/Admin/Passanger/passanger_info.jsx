@@ -9,9 +9,14 @@ export default function PassangerInfo() {
     pass_flight: "",
     search_by: "",
   });
+
+  const [errorMessage, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("");
   const handlesubmit = async (e) => {
     e.preventDefault();
     // console.log("Passenger Details:", passengers);
+
+
 
     try {
       let response;
@@ -40,7 +45,7 @@ export default function PassangerInfo() {
       setResult(response.data.Passenger)
     } catch (error) {
       console.error("Search failed:", error);
-      alert("Failed to fetch passenger. Please check details.");
+      setError("Failed to fetch passenger. Please check details.");
     }
   };
 
@@ -138,6 +143,16 @@ export default function PassangerInfo() {
           {/* Add more fields as needed */}
         </div>
       )}
+      {successMessage && (
+          <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
+        )}
     </div>
   );
 }

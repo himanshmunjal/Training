@@ -15,7 +15,8 @@ export default function Signup() {
     dob: ""
   });
 
-  const [error, setError] = useState("");
+  const [errorMessage, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -51,7 +52,7 @@ export default function Signup() {
         dob: formData.dob
       });
       if (response.status === 200) {
-        alert("Signup successful");
+        setSuccessMessage("Signup successful");
         console.log(formData);
       } else {
         setError("Signup failed. Please try again.");
@@ -180,6 +181,16 @@ export default function Signup() {
           </p>
         </form>
       </div>
+      {successMessage && (
+          <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
+        )}
     </div>
   );
 }

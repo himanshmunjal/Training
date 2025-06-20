@@ -7,7 +7,8 @@ import axios from "axios"; // Import axios for HTTP requests
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errorMessage, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +19,7 @@ export default function Login() {
       });
       if (response.status === 200 && response.data.passenger_id && response.data.token) {
         setError("");
-        alert(`Passenger ID: ${response.data.passenger_id}`); // Optional
+        setSuccessMessage(`Passenger ID: ${response.data.passenger_id}`); // Optional
         localStorage.setItem("role", "user");
         localStorage.setItem("auth_token", response.data.token);
         localStorage.setItem("passenger_id", response.data.passenger_id);
@@ -53,7 +54,6 @@ export default function Login() {
         <h2 className="text-2xl font-semibold text-gray-800 text-center">
           Login
         </h2>
-        {error && <p className="text-red-500 text-center font-semibold">{error}</p>} {/* ✅ Show error message */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-700">Email<sup className="text-red-400"> *</sup></label>
@@ -100,6 +100,16 @@ export default function Login() {
             </Link>
           </p>
         </form>
+      {successMessage && (
+          <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
+        )}
       </div>
     </div>
   );

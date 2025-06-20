@@ -15,6 +15,9 @@ export default function Status() {
     arrival_time: ""
   });
 
+  const [errorMessage, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -35,13 +38,13 @@ export default function Status() {
         arrival_time: formData.arrival_time
       });
       if (response.status === 200) {
-        alert("Flight details added successfully");
+        setSuccessMessage("Flight details added successfully");
       } else {
-        alert("⚠️ Failed to add flight details. Please check your input.");
+        setError("⚠️ Failed to add flight details. Please check your input.");
       }
     } catch (error) {
       console.error("Error Adding flight details:", error);
-      alert("An error occurred. Please try again.");
+      setError("An error occurred. Please try again.");
     }
   };
 
@@ -88,6 +91,16 @@ export default function Status() {
           Submit
         </button>
       </form>
+      {successMessage && (
+          <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
+        )}
     </div>
   );
 }

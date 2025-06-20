@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import backgroundImage from "../../assets/pp.avif";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect } from "react";
+
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -17,10 +19,20 @@ export default function Signup() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const [error, setError] = useState("");
+  
+  const [errorMessage, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+      return () => clearTimeout(timer); // Cleanup on unmount or message change
+    }
+  }, [successMessage]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -87,8 +99,15 @@ export default function Signup() {
         <h2 className="text-2xl font-semibold text-gray-800 text-center">
           Signup as User
         </h2>
-        {error && (
-          <p className="text-red-500 text-center font-semibold">{error}</p>
+        {successMessage && (
+          <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -186,6 +205,7 @@ export default function Signup() {
             </Link>
           </p>
         </form>
+        
       </div>
     </div>
   );

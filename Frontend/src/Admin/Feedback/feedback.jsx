@@ -8,7 +8,9 @@ export default function Feedback() {
     through: "",
   });
   const [feedbacks, setFeedbacks] = useState([]);
-  let id = 1;
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -21,14 +23,17 @@ export default function Feedback() {
         formData
       );
       if (response.status === 200) {
-        console.log(response.data);
         setFeedbacks(response.data.complaint || []);
+        setSuccessMessage("Feedback data fetched successfully.");
+        setErrorMessage("");
       } else {
-        alert("Issue in fetching Feedbacks. Try again later!");
+        setErrorMessage("Issue in fetching Feedbacks. Try again later!");
+        setSuccessMessage("");
       }
     } catch (error) {
       console.error("Request failed:", error);
-      alert("Server error occurred. Check console for details.");
+      setErrorMessage("Server error occurred. Check console for details.");
+      setSuccessMessage("");
     }
   };
 
@@ -38,7 +43,11 @@ export default function Feedback() {
         Feedback Portal
       </h1>
 
+          {/* existing form contents remain unchanged */}
+
+
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6">
+        
         <form onSubmit={handlesubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             <div className="col-span-full">
@@ -102,6 +111,16 @@ export default function Feedback() {
             </button>
           </div>
         </form>
+        {successMessage && (
+          <div className="mb-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="mb-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
+        )}
       </div>
 
       <div className="max-w-5xl mx-auto mt-10 bg-white rounded-xl shadow overflow-x-auto">

@@ -13,6 +13,8 @@ export default function AdvisoryForm() {
   });
 
   const [advisories, setAdvisories] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetchAdvisories();
@@ -44,7 +46,8 @@ export default function AdvisoryForm() {
         end_date: new Date(formData.end_date).toISOString(),
       });
       if (response.status === 200) {
-        alert("Advisory submitted successfully!");
+        setSuccessMessage("Advisory submitted successfully!");
+        setErrorMessage("");
         setFormData({
           admin_key: "",
           advisory_title: "",
@@ -54,11 +57,12 @@ export default function AdvisoryForm() {
           start_date: "",
           end_date: "",
         });
-        fetchAdvisories(); // Refresh table
+        fetchAdvisories();
       }
     } catch (error) {
       console.error("Error submitting advisory:", error);
-      alert("Failed to submit advisory. Please try again.");
+      setErrorMessage("Failed to submit advisory. Please try again.");
+      setSuccessMessage("");
     }
   };
 
@@ -70,7 +74,8 @@ export default function AdvisoryForm() {
       setAdvisories(advisories.filter((adv) => adv.advisory_id !== id));
     } catch (error) {
       console.error("Error deleting advisory:", error);
-      alert("Failed to delete advisory.");
+      setErrorMessage("Failed to delete advisory.");
+      setSuccessMessage("");
     }
   };
 
@@ -107,6 +112,17 @@ export default function AdvisoryForm() {
         </button>
       </form>
 
+      {successMessage && (
+        <div className="mb-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+          {successMessage}
+        </div>
+      )}
+      
+      {errorMessage && (
+        <div className="mb-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+          {errorMessage}
+        </div>
+      )}
       <div className="mt-10 mb-8 bg-white rounded shadow overflow-x-auto">
         <table className="w-full text-left text-sm border">
           <thead className="bg-orange-50">

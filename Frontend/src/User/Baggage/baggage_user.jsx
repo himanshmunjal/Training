@@ -9,6 +9,8 @@ export default function Baggage() {
     pass_id: "",
   });
 
+  const [errorMessage, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("");
   const [baggageDetails, setBaggageDetails] = useState(null);
 
   const handleChange = (e) => {
@@ -27,13 +29,13 @@ export default function Baggage() {
         },
       });
       if (response.status === 200) {
-        alert("Baggage details fetched successfully!");
+        setSuccessMessage("Baggage details fetched successfully!");
         console.log(response.data.baggage);
         setBaggageDetails(response.data.baggage);
       }
     } catch (error) {
       console.error("Error fetching baggage details:", error);
-      alert("Failed to fetch baggage details. Please try again.");
+      setError("Failed to fetch baggage details. Please try again.");
     }
   };
 
@@ -108,6 +110,16 @@ export default function Baggage() {
           </button>
         </form>
       </div>
+      {successMessage && (
+          <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
+        )}
       {/* flex flex-col items-center justify-center */}
       {baggageDetails && (
         <div className="flex items-center justify-center bg-gray-100 p-10">

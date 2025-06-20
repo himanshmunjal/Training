@@ -53,7 +53,12 @@ export default function BookingForm() {
       },
     });
   };
-
+  {errorMessage && (
+    <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+      {errorMessage}
+    </div>
+  )}
+  const [errorMessage, setError] = useState("")
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -63,7 +68,7 @@ export default function BookingForm() {
       navigate("/user/filter");
     } catch (error) {
       console.error("Flight search failed", error);
-      alert("Could not fetch flights. Please check your input.");
+      setError("Could not fetch flights. Please check your input.");
     }
   };
 
@@ -73,6 +78,11 @@ export default function BookingForm() {
         Flight Booking Portal
       </h1>
       <div className="bg-slate-100 shadow-2xl rounded-xl p-6 max-w-6xl mx-auto mt-10 mb-5">
+    {errorMessage && (
+    <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+      {errorMessage}
+    </div>
+  )}
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 mb-4">
             <div className="lg:col-span-1">

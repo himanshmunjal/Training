@@ -21,6 +21,8 @@ export default function FlightManage() {
     layoverstop: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -41,15 +43,15 @@ export default function FlightManage() {
         formData
       );
       if (response.status === 200) {
-        alert("Flight details Added successfully!");
+        setSuccessMessage("Flight details Added successfully!");
       } else {
-        alert("Failed to add baggage details. Please try again.");
+        setErrorMessage("Failed to add baggage details. Please try again.");
         console.error("Error fetching baggage details:", response.data);
       }
       console.log("Flight Details:", formData);
     } catch (error) {
       console.error("Error during fetching baggage details:", error);
-      alert(
+      setErrorMessage(
         "An error occurred while fetching baggage details. Please try again."
       );
     }
@@ -90,47 +92,6 @@ export default function FlightManage() {
                 className="w-full border rounded px-3 py-2"
                 required
               />
-              {/* <div className="mt-2">
-                <label className="inline-flex items-center text-sm">
-                  <input
-                    type="checkbox"
-                    name="layover"
-                    checked={formData.layover}
-                    onChange={handleLayoverChange}
-                    className="mr-2"
-                  />
-                  Has Layover
-                </label>
-              </div>
-
-              {formData.layover && (
-                <div className="mt-2 space-y-2">
-                  <div>
-                    <label className="text-xs text-gray-600">
-                      Layover Duration (hh:mm)
-                    </label>
-                    <input
-                      type="text"
-                      name="layoverDuration"
-                      value={formData.layoverDuration}
-                      onChange={handleLayoverChange}
-                      className="w-full border rounded px-3 py-2"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-600">
-                      Layover Stop Location
-                    </label>
-                    <input
-                      type="text"
-                      name="layoverStop"
-                      value={formData.layoverstop}
-                      onChange={handleLayoverChange}
-                      className="w-full border rounded px-3 py-2"
-                    />
-                  </div>
-                </div>
-              )} */}
             </div>
             <div className="lg:col-span-1">
               <label>Flight ID</label>
@@ -356,6 +317,16 @@ export default function FlightManage() {
             Submit
           </button>
         </form>
+        {successMessage && (
+          <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
+        )}
       </div>
     </>
   );

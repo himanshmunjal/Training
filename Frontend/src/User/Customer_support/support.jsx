@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function Support() {
-  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     Pass_id: "",
     airline: "",
@@ -12,7 +11,8 @@ export default function Support() {
   });
 
   const [submittedComplaint, setSubmittedComplaint] = useState(null); // ✅ Stores registered complaint
-
+  const [errorMessage, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("");
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -30,7 +30,7 @@ export default function Support() {
         date: formData.date
       });
       if (response.status === 200) {
-        alert("Feedback registered successfully!");
+        setSuccessMessage("Feedback registered successfully!");
         setSubmittedComplaint(formData);
       } else {
         setError("Failed to register complaint. Please try again.");
@@ -139,6 +139,16 @@ export default function Support() {
         </form>
       </div>
 
+      {successMessage && (
+          <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+            {errorMessage}
+          </div>
+        )}
       {/* ✅ Display Registered Complaint */}
       {submittedComplaint && (
         <div className="mt-6 p-4 mb-7 bg-white shadow-md rounded max-w-5xl mx-auto">

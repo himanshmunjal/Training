@@ -7,31 +7,38 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [admin_email, setEmail] = useState("");
   const [admin_password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errorMessage, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const response = await axios.post("https://skyport-b.onrender.com/admin/login", {
-      admin_email: admin_email,
-      admin_password: admin_password,
-    });
-      if (response.status === 200 && response.data.admin_key && response.data.token) {
-        alert("Login successful");
+    try {
+      const response = await axios.post(
+        "https://skyport-b.onrender.com/admin/login",
+        {
+          admin_email: admin_email,
+          admin_password: admin_password,
+        }
+      );
+      if (
+        response.status === 200 &&
+        response.data.admin_key &&
+        response.data.token
+      ) {
+        setSuccessMessage("Login successful");
         setError("");
         localStorage.setItem("role", "admin");
         localStorage.setItem("auth_token", response.data.token);
-        localStorage.setItem("admin_key",response.data.admin_key);
+        localStorage.setItem("admin_key", response.data.admin_key);
         navigate("/admin");
       } else {
         setError("Login Failed. Check Credantials.");
         console.log(response.data);
       }
-    }catch(error){
+    } catch (error) {
       console.error("Error during login:", error);
-      // alert("An error occurred during login. Please try again.");
-      setError("Login Failed. Check Credantials.")
+      setError("Login Failed. Check Credantials.");
     }
     console.log("Email:", admin_email, "Password:", admin_password);
   };
@@ -80,7 +87,9 @@ export default function Login() {
             <label>
               <input type="checkbox" className="mr-2" /> Remember me
             </label>
-            <a href="#" className="hover:text-orange-500">Forgot Password?</a>
+            <a href="#" className="hover:text-orange-500">
+              Forgot Password?
+            </a>
           </div>
 
           <button
@@ -92,11 +101,24 @@ export default function Login() {
 
           <p className="text-center text-gray-700">
             Don't have an account?{" "}
-            <Link to="/admin/signup-admin" className="text-orange-600 hover:underline">
+            <Link
+              to="/admin/signup-admin"
+              className="text-orange-600 hover:underline"
+            >
               Register
             </Link>
           </p>
         </form>
+      {successMessage && (
+        <div className="m-4 text-green-700 bg-green-100 border border-green-300 p-3 rounded">
+          {successMessage}
+        </div>
+      )}
+      {errorMessage && (
+        <div className="m-4 text-red-700 bg-red-100 border border-red-300 p-3 rounded">
+          {errorMessage}
+        </div>
+      )}
       </div>
     </div>
   );
